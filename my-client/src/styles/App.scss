@@ -1,0 +1,280 @@
+@use "sass:map";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import "theme.scss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.bx {
+  font-size: 1.7rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: map.get($theme_colors, "light");
+  width: 230px;
+  height: 100%;
+  z-index: 2000;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  transition: all 0.3s ease;
+
+  .logo {
+    font-size: 24px;
+    font-weight: 700;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    color: map.get($theme_colors, "primary");
+    z-index: 500;
+    padding-bottom: 20px;
+    box-sizing: content-box;
+
+    .logo-name span {
+      color: map.get($theme_colors, "dark");
+      font-size: 32px;
+    }
+
+    svg {
+      min-width: 60px;
+      display: flex;
+      justify-content: center;
+      font-size: 24px;
+    }
+  }
+
+  .side-menu {
+    width: 100%;
+    margin-top: 48px;
+
+    li {
+      height: 48px;
+      background: transparent;
+      margin-left: 6px;
+      border-radius: 48px 0 0 48px;
+      padding: 4px;
+
+      &.active {
+        background: map.get($theme_colors, "grey");
+        position: relative;
+
+        &::before,
+        &::after {
+          content: "";
+          position: absolute;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          right: 0;
+          box-shadow: 20px 20px 0 map-get($theme_colors, "grey");
+          z-index: -1;
+        }
+
+        &::before {
+          top: -40px;
+        }
+
+        &::after {
+          bottom: -40px;
+          box-shadow: 20px -20px 0 map-get($theme_colors, "grey");
+        }
+        a {
+          color: map.get($theme_colors, "success");
+        }
+      }
+
+      a {
+        width: 100%;
+        height: 100%;
+        background: map.get($theme_colors, "light");
+        display: flex;
+        align-items: center;
+        border-radius: 48px;
+        font-size: 16px;
+        color: map.get($theme_colors, "dark");
+        white-space: nowrap;
+        overflow-x: hidden;
+        transition: all 0.3s ease;
+
+        svg {
+          min-width: calc(60px - ((4px + 6px) * 2));
+          display: flex;
+          font-size: 20px;
+          justify-content: center;
+        }
+      }
+      a:hover {
+        color: map.get($theme_colors, "primary");
+      }
+    }
+  }
+}
+
+.content {
+  position: relative;
+  width: calc(100% - 230px);
+  left: 230px;
+  transition: all 0.3s ease;
+}
+
+.sidebar.close ~ .content {
+  width: calc(100% - 60px);
+  left: 60px;
+}
+
+.content {
+  nav {
+    height: 56px;
+    background: map.get($theme_colors, "light");
+    padding: 0 24px 0 0;
+    display: flex;
+    align-items: center;
+    grid-gap: 24px;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+
+    &::before {
+      content: "";
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      bottom: -40px;
+      left: 0;
+      border-radius: 50%;
+      box-shadow: -20px -20px 0 map.get($theme_colors, "light");
+    }
+
+    a {
+      color: map.get($theme_colors, "dark");
+    }
+
+    svg {
+      cursor: pointer;
+      color: map.get($theme_colors, "dark");
+      font-size: 24px;
+    }
+
+    form {
+      max-width: 400px;
+      width: 100%;
+      margin-right: auto;
+
+      .form-input {
+        display: flex;
+        align-items: center;
+        height: 36px;
+
+        input {
+          flex-grow: 1;
+          padding: 0 16px;
+          height: 100%;
+          border: none;
+          background: map.get($theme_colors, "grey");
+          border-radius: 36px 0 0 36px;
+          outline: none;
+          width: 100%;
+          color: map.get($theme_colors, "dark");
+        }
+
+        button {
+          width: 80px;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: map.get($theme_colors, "primary");
+          color: map.get($theme_colors, "light");
+          font-size: 18px;
+          border: none;
+          outline: none;
+          border-radius: 0 36px 36px 0;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .notification {
+      font-size: 20px;
+      position: relative;
+
+      .count {
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        width: 20px;
+        height: 20px;
+        background: map.get($theme_colors, "danger");
+        border-radius: 50%;
+        color: map.get($theme_colors, "light");
+        border: 2px solid map.get($theme_colors, "light");
+        font-weight: 700;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    .profile {
+      svg {
+        width: 30px;
+        height: 30px;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+    }
+  }
+}
+
+button {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: map.get($theme_colors, "light-primary");
+  color: map.get($theme_colors, "dark");
+  font-size: 16px;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3 ease;
+  &:hover {
+    background: map.get($theme_colors, "primary");
+    color: map.get($theme_colors, "light");
+  }
+}
+
+.disable {
+  background: map.get($theme_colors, "grey") !important;
+  &:hover {
+    color: inherit;
+    cursor: not-allowed;
+  }
+}
+
+.hidden {
+  opacity: 0;
+}

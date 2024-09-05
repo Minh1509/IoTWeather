@@ -1,0 +1,48 @@
+@use "sass:map";
+@import "../../styles/theme.scss";
+
+.my-inf {
+  margin: 30px auto;
+  background: map.get($theme_colors, "grey");
+  border-radius: 20px;
+  width: 70%;
+  display: flex;
+    text-align: center;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+  row-gap: 20px;
+  img {
+    margin-top: 20px;
+    height: 250px;
+    width: 250px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+  }
+  ul {
+    padding: 20px;
+    li {
+      display: flex;
+      align-items: center; 
+      line-height: 45px;
+      font-size: 16px;
+      color: map.get($theme_colors, "dark");
+      font-weight: 500;
+  
+      // Đảm bảo các phần tử con của li bắt đầu cùng một chỗ
+      & > *:first-child {
+        flex-shrink: 0; 
+        width: 150px; 
+      }
+  
+      span {
+        font-weight: 400;
+        margin-left: 15px;
+        flex-grow: 1; 
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+}

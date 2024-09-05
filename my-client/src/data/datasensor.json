@@ -1,0 +1,100 @@
+[
+  {
+    "id": 1,
+    "temperature": 23,
+    "humidity": 60,
+    "light": 600,
+    "time": "2024-09-04T02:58:10.000Z"
+  },
+  {
+    "id": 5,
+    "temperature": 25,
+    "humidity": 50,
+    "light": 500,
+    "time": "2024-09-04T03:10:18.000Z"
+  },
+  {
+    "id": 6,
+    "temperature": 25,
+    "humidity": 50,
+    "light": 600,
+    "time": "2024-09-04T03:12:13.000Z"
+  },
+  {
+    "id": 7,
+    "temperature": 23,
+    "humidity": 60,
+    "light": 600,
+    "time": "2024-09-04T03:23:45.000Z"
+  },
+  {
+    "id": 8,
+    "temperature": 30,
+    "humidity": 70,
+    "light": 900,
+    "time": "2024-09-04T03:28:11.000Z"
+  },
+  {
+    "id": 9,
+    "temperature": 23,
+    "humidity": 60,
+    "light": 500,
+    "time": "2024-09-04T08:26:19.000Z"
+  },
+  {
+    "id": 10,
+    "temperature": 30,
+    "humidity": 70,
+    "light": 800,
+    "time": "2024-09-04T15:50:02.000Z"
+  },
+  {
+    "id": 11,
+    "temperature": 30,
+    "humidity": 70,
+    "light": 900,
+    "time": "2024-09-04T15:50:23.000Z"
+  },
+  {
+    "id": 12,
+    "temperature": 30,
+    "humidity": 70,
+    "light": 600,
+    "time": "2024-09-04T15:51:49.000Z"
+  },
+  {
+    "id": 13,
+    "temperature": 30,
+    "humidity": 70,
+    "light": 500,
+    "time": "2024-09-04T15:53:23.000Z"
+  },
+  {
+    "id": 14,
+    "temperature": 30,
+    "humidity": 70,
+    "light": 400,
+    "time": "2024-09-04T15:53:29.000Z"
+  },
+  {
+    "id": 15,
+    "temperature": 30,
+    "humidity": 70,
+    "light": 300,
+    "time": "2024-09-04T15:53:45.000Z"
+  },
+  {
+    "id": 16,
+    "temperature": 30,
+    "humidity": 70,
+    "light": 200,
+    "time": "2024-09-04T15:53:48.000Z"
+  },
+  {
+    "id": 17,
+    "temperature": 30,
+    "humidity": 70,
+    "light": 100,
+    "time": "2024-09-04T15:53:53.000Z"
+  }
+]

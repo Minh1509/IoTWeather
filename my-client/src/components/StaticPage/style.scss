@@ -1,0 +1,112 @@
+@use "sass:map";
+@import "../../styles/theme.scss";
+
+.content-table {
+  margin-top: 20px;
+}
+
+.content-table table {
+  background: map.get($theme_colors, "light");
+  width: 100%;
+  padding: 15px 15px 0 15px; 
+  text-align: center;
+  box-shadow: 0 2rem 3rem rgba(132, 139, 200, 0.18);
+  border-radius: 15px;
+  transition: all 0.3s ease;
+}
+
+.content-table table:hover {
+  box-shadow: none;
+}
+
+table tbody tr {
+    color: map.get($theme_colors, "dark");
+    text-align: center;
+    
+    
+}
+table tbody td {
+  height: 30px;
+  padding: 10px;
+  border-bottom: 1px solid rgba(132, 139, 200, 0.18);  
+  color: map.get($theme_colors, "dark");
+}
+
+table tbody tr:last-child td {
+  border: none;
+}
+
+.pagination{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+    text-align: center;
+    column-gap: 25px;
+    
+    span {
+        color: map.get($theme_colors, "dark");  
+        font-size: 16px;
+        margin-bottom: 20px;
+
+    }
+    
+    button {
+        padding: 20px;
+        font-size: 14px;
+        margin-bottom: 20px; 
+    }
+}
+
+.main-header {
+    display: flex;
+    .main-header-left {
+        margin-bottom: 10px;
+    }
+    .main-header-bottom {
+        margin: 0 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        
+        form {
+            max-width: 700px;
+            width: 100%;
+            margin: 0 auto;
+
+            .form-input {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 50px;
+        
+                input {
+                  flex-grow: 1;
+                  padding:  20px;
+                  height: 100%;
+                  border: none;
+                  background: map.get($theme_colors, "grey");
+                  border-radius: 36px 0 0 36px;
+                  outline: none;
+                  width: 100%;
+                  color: map.get($theme_colors, "dark");
+                }
+        
+                button {
+                  width: 80px;
+                  height: 100%;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  background: map.get($theme_colors, "primary");
+                  color: map.get($theme_colors, "light");
+                  font-size: 18px;
+                  border: none;
+                  outline: none;
+                  border-radius: 0 36px 36px 0;
+                  cursor: pointer;
+                }
+              }
+        }
+    }
+}
