@@ -1,5 +1,5 @@
 import "./styles/App.scss";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import HomePage from "./components/HomePage";
 import Layout from "./components/theme/Layout";
 import ProfilePage from "./components/ProfilePage";
@@ -9,27 +9,29 @@ import { ROUTER } from "./routes/router";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AppProvider } from "./data/AppContext";
 import useDataSensor from "./assets/API/DataSenSor";
-
+import useDataHistory from "./assets/API/DataHistory";
 
 function App() {
   const [loading, setLoading] = useState(true);
   const dataSenSor = useDataSensor();
- 
+  const dataHistory = useDataHistory();
 
   useEffect(() => {
-    if (dataSenSor && dataSenSor.data ) {
+    if (dataSenSor && dataSenSor.data && dataHistory && dataHistory.data) {
       setLoading(false);
     }
-  }, [dataSenSor]);
+  }, [dataSenSor, dataHistory]);
 
   if (loading) {
     return <div>Loading...</div>;
   }
+  console.log(dataSenSor.data)
+  console.log(dataHistory.data);
 
   const userRoute = [
     {
       path: ROUTER.USER.HOME,
-      component: <HomePage dataSensor={dataSenSor.data}  />,
+      component: <HomePage dataSensor={dataSenSor.data} />,
     },
     {
       path: ROUTER.USER.STATICS,
@@ -37,7 +39,7 @@ function App() {
     },
     {
       path: ROUTER.USER.HISTORY,
-      component: <HistoryPage />,
+      component: <HistoryPage dataHistory={dataHistory.data} />,
     },
     {
       path: ROUTER.USER.PROFILE,

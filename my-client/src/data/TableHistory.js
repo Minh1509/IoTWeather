@@ -10,6 +10,7 @@ const columns = [
     options: {
       filter: true,
       sort: true,
+      filterType : "dropdown",
     },
   },
   {
@@ -18,6 +19,7 @@ const columns = [
     options: {
       filter: true,
       sort: true,
+      filterType : "dropdown",
     },
   },
   {
@@ -26,6 +28,7 @@ const columns = [
     options: {
       filter: true,
       sort: true,
+      filterType : "dropdown",
     },
   },
   {
@@ -34,6 +37,7 @@ const columns = [
     options: {
       filter: true,
       sort: true,
+      filterType : "dropdown",
     },
   },
   {
@@ -42,19 +46,22 @@ const columns = [
     options: {
       filter: true,
       sort: true,
+      filterType : "dropdown",
       customBodyRender:value =>  formatter(value),
     },
   },
 ];
 
 const options = {
-  filterType: "checkbox",
+  filterType: "dropdown",
   selectableRows: "none",
   rowPerPage: 5,
   rowsPerPageOptions: [5, 10, 20, 50],
   download: false,
   print: false,
-  viewColumns: false
+  viewColumns: false,
+  search: true,
+  filter: true,
 };
 
 export default function Table() {

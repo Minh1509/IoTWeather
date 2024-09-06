@@ -14,27 +14,20 @@ import getColorTemperature from "../../data/SetColorTemperature";
 import getColorHumidity from "../../data/SetColorHumidity";
 import getColorLight from "../../data/SetColorLight";
 import { AppContext } from "../../data/AppContext";
+import ControlDevice from "../../data/ControlDevices";
 
 const HomePage = (props) => {
   const { setCurrentPage } = useContext(AppContext);
-  const temperature =  props.dataSensor[props.dataSensor.length-1].temperature;
-  const humidity= props.dataSensor[props.dataSensor.length-1].humidity;;
-  const light =props.dataSensor[props.dataSensor.length-1].light;
-  const {color:colorTem, backgroundColor:backgroundColorTem} = getColorTemperature(temperature);
-  const {color:colorHum, backgroundColor:backgroundColorHum} = getColorHumidity(humidity);
-  const {color:colorLight, backgroundColor:backgroundColorLight} = getColorLight(light);
-  const [isFanOn, setFanIsOn] = useState(true);
-  const [isLedOn, setLedIsOn] = useState(true);
-  const [isConditionerOn, setConditionerIsOn] = useState(true);
-  const handleToggle = (status) => {
-    setFanIsOn(status);
-  };
-  const handleToggleLed = (status) => {
-    setLedIsOn(status);
-  };
-  const handleToggleConditioner = (status) => {
-    setConditionerIsOn(status);
-  };
+  const temperature = props.dataSensor[props.dataSensor.length-1].temperature;
+  const humidity = props.dataSensor[props.dataSensor.length - 1].humidity;
+  const light = props.dataSensor[props.dataSensor.length - 1].light;
+  const { color: colorTem, backgroundColor: backgroundColorTem } =
+    getColorTemperature(temperature);
+  const { color: colorHum, backgroundColor: backgroundColorHum } =
+    getColorHumidity(humidity);
+  const { color: colorLight, backgroundColor: backgroundColorLight } =
+    getColorLight(light);
+
   return (
     <>
       <div className="main-header">
@@ -71,14 +64,18 @@ const HomePage = (props) => {
           </span>
         </li>
         <li>
-          <WiHumidity  style={{color: colorHum, backgroundColor: backgroundColorHum}}/>
+          <WiHumidity
+            style={{ color: colorHum, backgroundColor: backgroundColorHum }}
+          />
           <span className="inf">
             <h3>Humidity</h3>
             <p>{humidity}%</p>
           </span>
         </li>
         <li>
-          <CiLight style={{color: colorLight, backgroundColor: backgroundColorLight}}/>
+          <CiLight
+            style={{ color: colorLight, backgroundColor: backgroundColorLight }}
+          />
           <span className="inf">
             <h3>Light</h3>
             <p>{light}LUX</p>
@@ -87,77 +84,9 @@ const HomePage = (props) => {
       </ul>
       <div className="main-bottom">
         <div className="chart">
-          <LineChart data = {props.dataSensor}/>
+          <LineChart data={props.dataSensor} />
         </div>
-        <div className="device">
-          <h3>Control Device</h3>
-          <ul className="device-item">
-            <li>
-              <FaFan className={isFanOn ? "fan-icon-spin" : ""} />
-              <span className="inf">
-                <h4>Quạt</h4>
-                <div className="active">
-                  <button
-                    className={`btn-on ${isFanOn ? "activate" : ""}`}
-                    onClick={() => handleToggle(true)}
-                  >
-                    On
-                  </button>
-                  <button
-                    className={`btn-off ${!isFanOn ? "notactivate" : ""}`}
-                    onClick={() => handleToggle(false)}
-                  >
-                    Off
-                  </button>
-                </div>
-              </span>
-            </li>
-            <li>
-              <TbAirConditioning
-                className={isConditionerOn ? "conditioner-on" : ""}
-              />
-              <span className="inf">
-                <h4>Điều hòa</h4>
-                <div className="active">
-                  <button
-                    className={`btn-on ${isConditionerOn ? "activate" : ""}`}
-                    onClick={()=>handleToggleConditioner(true)}
-                  >
-                    On
-                  </button>
-                  <button
-                    className={`btn-off ${
-                      !isConditionerOn ? "notactivate" : ""
-                    }`}
-                    onClick={()=>handleToggleConditioner(false)}
-                  >
-                    Off
-                  </button>
-                </div>
-              </span>
-            </li>
-            <li>
-              <FaRegLightbulb className={isLedOn ? "blink" : ""} />
-              <span className="inf">
-                <h4>Đèn LED</h4>
-                <div className="active">
-                  <button
-                    className={`btn-on ${isLedOn ? "activate" : ""}`}
-                    onClick={() => handleToggleLed(true)}
-                  >
-                    On
-                  </button>
-                  <button
-                    className={`btn-off ${!isLedOn ? "notactivate" : ""}`}
-                    onClick={() => handleToggleLed(false)}
-                  >
-                    Off
-                  </button>
-                </div>
-              </span>
-            </li>
-          </ul>
-        </div>
+        <ControlDevice />
       </div>
     </>
   );

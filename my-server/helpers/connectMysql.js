@@ -9,16 +9,14 @@ const conn = mysql.createConnection({
 
 conn.connect((err) => {
   if (err) {
-    console.log(err);
-    return;
+    throw err;
   }
-  conn.query("select * from datasensor", (err, result) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    console.log(result);
-  });
+  // conn.query("select * from action_history", (err, result) => {
+  //   if(err){
+  //     throw err;
+  //   }
+  //   console.log(result);
+  // })
   console.log("Connected to MySQL");
 });
 

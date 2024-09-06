@@ -14,11 +14,11 @@ const getColorTemperature = (temperature) => {
         color = "#00ff00";
         backgroundColor = tinycolor(color).lighten(35).toString();
     } else if (temperature <= 20) {
-        color = "#ffffe0";
-        backgroundColor = tinycolor(color).lighten(35).toString();
+        color = "#add8e6";
+        backgroundColor = tinycolor(color).lighten(15).toString();
     } else if (temperature <= 25) {
         color = "#ffff00";
-        backgroundColor = tinycolor(color).lighten(35).toString();
+        backgroundColor = tinycolor(color).lighten(45).toString();
     } else if (temperature <= 30) {
         color = "#ffa400";
         backgroundColor = tinycolor(color).lighten(35).toString();

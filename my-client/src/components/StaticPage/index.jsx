@@ -4,62 +4,62 @@ import { Link } from "react-router-dom";
 import { ROUTER } from "../../routes/router";
 import data from "../../data/DataStatic";
 import { CiSearch } from "react-icons/ci";
+import Table from "../../data/TableSensor";
 import "./style.scss";
 
 const StaticPage = () => {
   const { setCurrentPage } = useContext(AppContext);
-  const [dataPage, setDataPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10); // Tạo state cho itemsPerPage
-  const [searchTerm, setSearchTerm] = useState(""); // Tạo state cho giá trị search
-  const [filterSort, setFilterSort] = useState('none');
-  // xử lý tìm kiếm
+  // const [dataPage, setDataPage] = useState(1);
+  // const [itemsPerPage, setItemsPerPage] = useState(10); // Tạo state cho itemsPerPage
+  // const [searchTerm, setSearchTerm] = useState(""); // Tạo state cho giá trị search
+  // const [filterSort, setFilterSort] = useState('none');
+  // // xử lý tìm kiếm
 
-  const filterData = data
-    .filter((item) => {
-      return (
-        item.id.toString().includes(searchTerm) ||
-        item.tem.toString().includes(searchTerm) ||
-        item.hum.toString().includes(searchTerm) ||
-        item.light.toString().includes(searchTerm) ||
-        item.time.toString().includes(searchTerm)
-      );
-    })
-    .sort((a, b) => {
-      if (filterSort === 'increase') {
-        return new Date(a.time) - new Date(b.time);
-      } else if( filterSort === 'decrease') {
-        return new Date(b.time) - new Date(a.time);
-      }
-      else return 0;
-    });
+  // const filterData = data
+  //   .filter((item) => {
+  //     return (
+  //       item.id.toString().includes(searchTerm) ||
+  //       item.tem.toString().includes(searchTerm) ||
+  //       item.hum.toString().includes(searchTerm) ||
+  //       item.light.toString().includes(searchTerm) ||
+  //       item.time.toString().includes(searchTerm)
+  //     );
+  //   })
+  //   .sort((a, b) => {
+  //     if (filterSort === 'increase') {
+  //       return new Date(a.time) - new Date(b.time);
+  //     } else if( filterSort === 'decrease') {
+  //       return new Date(b.time) - new Date(a.time);
+  //     }
+  //     else return 0;
+  //   });
 
-  // Xử lý phân trang và search
-  const totalPages = Math.ceil(filterData.length / itemsPerPage);
-  const currentData = filterData.slice(
-    (dataPage - 1) * itemsPerPage,
-    dataPage * itemsPerPage
-  );
+  // // Xử lý phân trang và search
+  // const totalPages = Math.ceil(filterData.length / itemsPerPage);
+  // const currentData = filterData.slice(
+  //   (dataPage - 1) * itemsPerPage,
+  //   dataPage * itemsPerPage
+  // );
 
+  // // Xử lý thay đổi giá trị search
+  // const handleSearchChange = (event) => {
+  //   setSearchTerm(event.target.value);
+  //   setDataPage(1);
+  // };
 
-  // Xử lý thay đổi giá trị search
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-    setDataPage(1);
-  };
-
-  const handlePageChange = (pageNumber) => {
-    if (pageNumber > 0 && pageNumber <= totalPages) {
-      setDataPage(pageNumber);
-    }
-  };
-  // xử lý thay đổi số lượng hiển thị trên 1 trang
-  const handleItemsPerPageChange = (event) => {
-    setItemsPerPage(Number(event.target.value));
-    setDataPage(1); // Cập nhật giá trị itemsPerPage
-  };
-  const handleSortChange = (event) => {
-    setFilterSort(event.target.value);
-  };
+  // const handlePageChange = (pageNumber) => {
+  //   if (pageNumber > 0 && pageNumber <= totalPages) {
+  //     setDataPage(pageNumber);
+  //   }
+  // };
+  // // xử lý thay đổi số lượng hiển thị trên 1 trang
+  // const handleItemsPerPageChange = (event) => {
+  //   setItemsPerPage(Number(event.target.value));
+  //   setDataPage(1); // Cập nhật giá trị itemsPerPage
+  // };
+  // const handleSortChange = (event) => {
+  //   setFilterSort(event.target.value);
+  // };
   return (
     <>
       {/* Static-header */}
@@ -84,7 +84,9 @@ const StaticPage = () => {
             </li>
           </ul>
         </div>
-        <div className="main-header-bottom">
+      </div>
+      <Table />
+      {/* <div className="main-header-bottom">
           <form action="#">
             <div className="form-input">
               <input
@@ -130,7 +132,7 @@ const StaticPage = () => {
       {/* End static-header */}
 
       {/* Static-content */}
-      <div class="content-table">
+      {/* <div class="content-table">
         <table>
           <thead>
             <tr>
@@ -152,11 +154,10 @@ const StaticPage = () => {
               </tr>
             ))}
           </tbody>
-        </table>
-      </div>
+        </table> */}
 
       {/* End-content */}
-      <div className="pagination">
+      {/* <div className="pagination">
         <button
           className={dataPage === 1 ? "disable" : ""}
           onClick={() => handlePageChange(dataPage - 1)}
@@ -184,8 +185,7 @@ const StaticPage = () => {
           onClick={() => handlePageChange(dataPage + 1)}
         >
           Next
-        </button>
-      </div>
+        </button> */}
     </>
   );
 };

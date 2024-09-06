@@ -109,7 +109,7 @@ const LineChart = (props) => {
         width: "800px",
         height: "450px",
         backgroundColor: "#f6f6f9",
-        paddingLeft: "20px",
+        padding: "0px 20px",
         borderRadius: "20px",
       }}
     >

@@ -3,7 +3,7 @@ const app = express();
 const cors = require('cors');
 require('./mqtt');
 require('./helpers/connectMysql');
-const dataSenSor = require('./routes/DataSenSor'); 
+const dataSenSor = require('./routes/Data'); 
 
 app.get('/', (req, res, next) => {
     console.log("Hello");

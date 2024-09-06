@@ -3,7 +3,7 @@ import { ROUTER } from "../../routes/router";
 import { useContext } from "react";
 import { AppContext } from "../../data/AppContext";
 import "./style.scss";
-import Table from "../../data/Table";
+import Table from "../../data/TableSensor";
 
 const ProfilePage = () => {
   const { setCurrentPage } = useContext(AppContext);
@@ -45,17 +45,27 @@ const ProfilePage = () => {
       </div>
       <div className="my-inf">
         <ul>
-          <li>Họ tên: <span>Nguyễn Quang Minh</span> </li>
-          <li>Mã Sinh Viên: <span>B21DCCN531</span></li>
-          <li>Lớp: <span>D21CNPM02</span></li>
-          <li>File báo cáo: <span>BaoCao.pdf</span></li>
-          <li>Source code: <span></span></li>
-          <li>API Docs: <span></span></li>
+          <li>
+            Họ tên: <span>Nguyễn Quang Minh</span>{" "}
+          </li>
+          <li>
+            Mã Sinh Viên: <span>B21DCCN531</span>
+          </li>
+          <li>
+            Lớp: <span>D21CNPM02</span>
+          </li>
+          <li>
+            File báo cáo: <span>BaoCao.pdf</span>
+          </li>
+          <li>
+            Source code: <span></span>
+          </li>
+          <li>
+            API Docs: <span></span>
+          </li>
         </ul>
         <img src="/images/myimage.jpg" alt="MyImage" />
       </div>
-      <Table/>
-     
     </>
   );
 };
