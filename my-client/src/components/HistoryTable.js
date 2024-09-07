@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { CiSearch } from "react-icons/ci";
+import { FaSortUp, FaSortDown } from "react-icons/fa"; // Thêm các biểu tượng mũi tên
 
-
-const DataSensorTable = (props) => {
+const HistoryTable = (props) => {
   const data = props.data;
   const [searchTerm, setSearchTerm] = useState("");
   const [dataType, setDataType] = useState("all");
@@ -44,8 +44,8 @@ const DataSensorTable = (props) => {
       if (dataType === "all") {
         return (
           item.id.toString().includes(searchTerm) ||
-          item.device.toString().includes(searchTerm) ||
-          item.status.toString().includes(searchTerm) ||
+          item.device.toString().toLowerCase().includes(searchTerm) ||
+          item.status.toString().toLowerCase().includes(searchTerm) ||
           item.time.toString().includes(searchTerm)
         );
       } else if (dataType === "time") {
@@ -70,6 +70,17 @@ const DataSensorTable = (props) => {
     currentPage * itemsPerPage
   );
 
+  const getSortIcon = (key) => {
+    if (sortConfig.key === key) {
+      if (sortConfig.direction === "asc") {
+        return <FaSortUp className="sort-icon" />;
+      } else {
+        return <FaSortDown className="sort-icon" />;
+      }
+    }
+    return null;
+  };
+
   return (
     <>
       <div className="main-header-bottom">
@@ -88,7 +99,11 @@ const DataSensorTable = (props) => {
         </form>
 
         <div className="datatype">
-          <select value={dataType} onChange={handleDataTypeChange} style={{width:'110px'}}>
+          <select
+            value={dataType}
+            onChange={handleDataTypeChange}
+            style={{ width: "110px" }}
+          >
             <option value="all">All</option>
             <option value="time">Time</option>
           </select>
@@ -98,10 +113,18 @@ const DataSensorTable = (props) => {
         <table>
           <thead>
             <tr>
-              <th onClick={() => handleSort("id")}>ID</th>
-              <th onClick={() => handleSort("device")}>Devices</th>
-              <th onClick={() => handleSort("status")}>Status</th>
-              <th onClick={() => handleSort("time")}>Time</th>
+              <th onClick={() => handleSort("id")}>
+                ID {getSortIcon("id")}
+              </th>
+              <th onClick={() => handleSort("device")}>
+                Devices {getSortIcon("device")}
+              </th>
+              <th onClick={() => handleSort("status")}>
+                Status {getSortIcon("status")}
+              </th>
+              <th onClick={() => handleSort("time")}>
+                Time {getSortIcon("time")}
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -109,7 +132,15 @@ const DataSensorTable = (props) => {
               <tr key={index}>
                 <td>{item.id}</td>
                 <td style={{ color: "#d32f2f" }}>{item.device}</td>
-                <td style={{ color: "#388e3c" }}>{item.status}</td>
+                <td>
+                  <button
+                    className={`status-btn ${
+                      item.status === "On" ? "status-on" : "status-off"
+                    } `}
+                  >
+                    {item.status}
+                  </button>
+                </td>
                 <td style={{ color: "#1976d2" }}>{item.time}</td>
               </tr>
             ))}
@@ -142,7 +173,9 @@ const DataSensorTable = (props) => {
           </span>
           <button
             className={
-              currentPage === totalPages || totalPages === 1 || totalPages === 0 ? "disable" : ""
+              currentPage === totalPages || totalPages === 1 || totalPages === 0
+                ? "disable"
+                : ""
             }
             onClick={() => handlePageChange(currentPage + 1)}
           >
@@ -154,4 +187,4 @@ const DataSensorTable = (props) => {
   );
 };
 
-export default DataSensorTable;
+export default HistoryTable;
