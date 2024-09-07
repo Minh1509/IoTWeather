@@ -3,7 +3,6 @@ import { ROUTER } from "../../routes/router";
 import { useContext } from "react";
 import { AppContext } from "../../data/AppContext";
 import "./style.scss";
-import Table from "../../data/TableSensor";
 
 const ProfilePage = () => {
   const { setCurrentPage } = useContext(AppContext);

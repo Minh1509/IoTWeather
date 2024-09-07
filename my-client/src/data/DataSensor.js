@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+
 const useDataSensor = () => {
   const [dataSensor, setDataSensor] = useState([]);
 
@@ -11,6 +12,7 @@ const useDataSensor = () => {
           "http://localhost:8000/api/datasensor"
         );
         setDataSensor(response.data);
+        console.log(response.data);
       } catch (error) {
         console.log(error);
       }

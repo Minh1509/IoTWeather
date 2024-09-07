@@ -29,7 +29,7 @@ const ControlDevice = () => {
     setFanIsOn(status);
     client.publish(
       "action_history",
-      JSON.stringify({ device: "Fan", status: status ? "On" : "Off" })
+      JSON.stringify({ device: "Quạt", status: status ? "On" : "Off" })
     );
   };
 
@@ -37,7 +37,7 @@ const ControlDevice = () => {
     setLedIsOn(status);
     client.publish(
       "action_history",
-      JSON.stringify({ device: "Led1", status: status ? "On" : "Off" })
+      JSON.stringify({ device: "Đèn LED 1", status: status ? "On" : "Off" })
     );
   };
 
@@ -45,7 +45,7 @@ const ControlDevice = () => {
     setLed1IsOn(status);
     client.publish(
       "action_history",
-      JSON.stringify({ device: "Led2", status: status ? "On" : "Off" })
+      JSON.stringify({ device: "Đèn LED 2", status: status ? "On" : "Off" })
     );
   };
 

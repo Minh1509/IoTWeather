@@ -1,41 +1,42 @@
 import "./styles/App.scss";
 import React, { useEffect, useState } from "react";
-import HomePage from "./components/HomePage";
-import Layout from "./components/theme/Layout";
-import ProfilePage from "./components/ProfilePage";
-import StaticPage from "./components/StaticPage";
-import HistoryPage from "./components/HistoryPage";
+import HomePage from "./pages/HomePage"
+import Layout from "./pages/theme/Layout"
+import ProfilePage from "./pages/ProfilePage";
+import DataSensorPage from "./pages/DataSensorPage";
+import HistoryPage from "./pages/HistoryPage";
 import { ROUTER } from "./routes/router";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AppProvider } from "./data/AppContext";
-import useDataSensor from "./assets/API/DataSenSor";
-import useDataHistory from "./assets/API/DataHistory";
+import useDataSensor from "./data/DataSensor";
+import useDataHistory from "./data/DataHistory";
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const dataSenSor = useDataSensor();
+  const dataSensor = useDataSensor();
   const dataHistory = useDataHistory();
 
   useEffect(() => {
-    if (dataSenSor && dataSenSor.data && dataHistory && dataHistory.data) {
+    if (dataSensor && dataSensor.data && dataHistory && dataHistory.data) {
       setLoading(false);
     }
-  }, [dataSenSor, dataHistory]);
+  }, [dataSensor, dataHistory]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>Data not found</div>;
   }
-  console.log(dataSenSor.data)
+
+  console.log(dataSensor.data);
   console.log(dataHistory.data);
 
   const userRoute = [
     {
       path: ROUTER.USER.HOME,
-      component: <HomePage dataSensor={dataSenSor.data} />,
+      component: <HomePage dataSensor={dataSensor.data} dataHistory ={dataHistory.data}/>,
     },
     {
       path: ROUTER.USER.STATICS,
-      component: <StaticPage dataSensor={dataSenSor.data} />,
+      component: <DataSensorPage dataSensor={dataSensor.data} />,
     },
     {
       path: ROUTER.USER.HISTORY,

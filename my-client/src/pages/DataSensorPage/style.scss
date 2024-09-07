@@ -1,0 +1,138 @@
+@use "sass:map";
+@import "../../styles/theme.scss";
+
+.content-table {
+  margin-top: 20px;
+}
+
+.content-table table {
+  background: map.get($theme_colors, "light");
+  width: 100%;
+  padding: 15px 15px 0 15px;
+  text-align: center;
+  box-shadow: 0 2rem 3rem rgba(132, 139, 200, 0.18);
+  border-radius: 15px;
+  transition: all 0.3s ease;
+}
+
+.content-table table:hover {
+  box-shadow: none;
+}
+table thead th {
+  color: map.get($theme_colors, "dark");
+  font-weight: 600;
+  
+}
+table thead th:hover {
+  color: map.get($theme_colors, "dark");
+  cursor: pointer;
+}
+table tbody tr {
+  color: map.get($theme_colors, "dark");
+  text-align: center;
+}
+table tbody td {
+  height: 30px;
+  padding: 10px;
+  border-bottom: 1px solid rgba(132, 139, 200, 0.18);
+  color: map.get($theme_colors, "dark");
+}
+
+table tbody tr:last-child td {
+  border: none;
+}
+
+.main-header {
+  display: flex;
+  margin-bottom: 30px;
+  .main-header-left {
+    margin-bottom: 10px;
+  }
+  .main-header-bottom {
+    margin: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    form {
+      max-width: 700px;
+      width: 100%;
+      margin: 0 auto;
+      .form-input {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 50px;
+
+        input {
+          flex-grow: 1;
+          padding: 20px;
+          height: 100%;
+          border: none;
+          background: map.get($theme_colors, "grey");
+          border-radius: 36px 0 0 36px;
+          outline: none;
+          width: 100%;
+          color: map.get($theme_colors, "dark");
+        }
+
+        button {
+          width: 80px;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: map.get($theme_colors, "primary");
+          color: map.get($theme_colors, "light");
+          font-size: 18px;
+          border: none;
+          outline: none;
+          border-radius: 0 36px 36px 0;
+          cursor: pointer;
+        }
+      }
+    }
+    .datatype {
+      margin-right: 20px;
+      select {
+        width: 100%;
+        padding: 20px 20px 20px 10px;
+        height: 100%;
+        border: none;
+        background: map.get($theme_colors, "grey");
+        border-radius: 10px;
+        outline: none;
+
+        color: map.get($theme_colors, "dark");
+      }
+    }
+  }
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    margin: 15px 20px 20px 0px;
+    column-gap: 25px;
+    .rows-per-page {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      column-gap: 15px;
+      margin-right: 10px;
+    }
+    .page-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      column-gap: 10px;
+    }
+    span {
+      color: map.get($theme_colors, "dark");
+      font-size: 14px;
+    }
+
+    button {
+      padding: 20px;
+      font-size: 14px;
+    }
+  }
+}

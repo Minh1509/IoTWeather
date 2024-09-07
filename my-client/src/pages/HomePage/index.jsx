@@ -1,20 +1,17 @@
 import React from "react";
 import { ROUTER } from "../../routes/router";
 import "./style.scss";
-import { useState, useContext } from "react";
+import {useContext } from "react";
 import { Link } from "react-router-dom";
 import { FaTemperatureHalf } from "react-icons/fa6";
 import { WiHumidity } from "react-icons/wi";
 import { CiLight } from "react-icons/ci";
-import LineChart from "../../data/LineChart";
-import { FaFan } from "react-icons/fa";
-import { TbAirConditioning } from "react-icons/tb";
-import { FaRegLightbulb } from "react-icons/fa";
+import LineChart from "../../components/LineChart";
 import getColorTemperature from "../../data/SetColorTemperature";
 import getColorHumidity from "../../data/SetColorHumidity";
 import getColorLight from "../../data/SetColorLight";
 import { AppContext } from "../../data/AppContext";
-import ControlDevice from "../../data/ControlDevices";
+import ControlDevice from "../../components/ControlDevices";
 
 const HomePage = (props) => {
   const { setCurrentPage } = useContext(AppContext);
@@ -86,7 +83,7 @@ const HomePage = (props) => {
         <div className="chart">
           <LineChart data={props.dataSensor} />
         </div>
-        <ControlDevice />
+        <ControlDevice data = {props.dataHistory}/>
       </div>
     </>
   );
