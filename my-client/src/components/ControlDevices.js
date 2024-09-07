@@ -2,10 +2,34 @@ import React, { useEffect, useState } from "react";
 import { FaFan, FaRegLightbulb } from "react-icons/fa";
 import mqtt from "mqtt";
 
-const ControlDevice = () => {
+const ControlDevice = (props) => {
   const [isFanOn, setFanIsOn] = useState(true);
   const [isLedOn, setLedIsOn] = useState(true);
   const [isLed1On, setLed1IsOn] = useState(true);
+  const data = props.data;
+  useEffect(() => {
+    const latestDevices = {};
+
+    for (let i = data.length - 1; i >= 0; i--) {
+      const device = data[i].device;
+      const status = data[i].status;
+      if (!latestDevices[device]) {
+        latestDevices[device] = { device, status };
+      }
+    }
+
+    const deviceStatusMap = {
+      "Quạt": setFanIsOn,
+      "Đèn LED 1": setLedIsOn,
+      "Đèn LED 2": setLed1IsOn,
+    };
+
+    Object.keys(deviceStatusMap).forEach((device) => {
+      if (latestDevices[device]) {
+        deviceStatusMap[device](latestDevices[device].status === "On");
+      }
+    });
+  }, [data]);
 
   const baseUri = "ws://localhost:9001"; // Sử dụng cổng WebSocket
   const option = {
@@ -76,7 +100,7 @@ const ControlDevice = () => {
         <li>
           <FaRegLightbulb className={isLedOn ? "blink" : ""} />
           <span className="inf">
-            <h4>Đèn LED</h4>
+            <h4>Đèn LED 1</h4>
             <div className="active">
               <button
                 className={`btn-on ${isLedOn ? "activate" : ""}`}
@@ -96,7 +120,7 @@ const ControlDevice = () => {
         <li>
           <FaRegLightbulb className={isLed1On ? "blink" : ""} />
           <span className="inf">
-            <h4>Đèn LED1</h4>
+            <h4>Đèn LED 2</h4>
             <div className="active">
               <button
                 className={`btn-on ${isLed1On ? "activate" : ""}`}

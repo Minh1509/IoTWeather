@@ -1,5 +1,6 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { CiSearch } from "react-icons/ci";
+import { FaSortUp, FaSortDown } from "react-icons/fa"; 
 
 const DataSensorTable = (props) => {
   const data = props.data;
@@ -62,6 +63,16 @@ const DataSensorTable = (props) => {
       }
       return 0;
     });
+    const getSortIcon = (key) => {
+      if (sortConfig.key === key) {
+        if (sortConfig.direction === "asc") {
+          return <FaSortUp className="sort-icon" />;
+        } else {
+          return <FaSortDown className="sort-icon" />;
+        }
+      }
+      return null;
+    };
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const currentData = filteredData.slice(
@@ -101,11 +112,11 @@ const DataSensorTable = (props) => {
         <table>
           <thead>
             <tr>
-              <th onClick={() => handleSort("id")}>ID</th>
-              <th onClick={() => handleSort("tem")}>Temperature</th>
-              <th onClick={() => handleSort("hum")}>Humidity</th>
-              <th onClick={() => handleSort("light")}>Light</th>
-              <th onClick={() => handleSort("time")}>Time</th>
+              <th onClick={() => handleSort("id")} >ID {getSortIcon("id")}</th>
+              <th onClick={() => handleSort("temperature")}>Temperature {getSortIcon("temperature")}</th>
+              <th onClick={() => handleSort("humidity")}>Humidity {getSortIcon("humidity")}</th>
+              <th onClick={() => handleSort("light")}>Light {getSortIcon("light")}</th>
+              <th onClick={() => handleSort("time")}>Time {getSortIcon("time")}</th>
             </tr>
           </thead>
           <tbody>
@@ -115,7 +126,6 @@ const DataSensorTable = (props) => {
                 <td style={{ color: "#d32f2f" }}>{item.temperature}</td>
                 <td style={{ color: "#388e3c" }}>{item.humidity}</td>
                 <td style={{ color: "#fbc02d", fontWeight: "450" }}>
-                  {" "}
                   {item.light}
                 </td>
                 <td style={{ color: "#1976d2" }}>{item.time}</td>

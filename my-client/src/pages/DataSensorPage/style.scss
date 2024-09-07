@@ -21,21 +21,43 @@
 table thead th {
   color: map.get($theme_colors, "dark");
   font-weight: 600;
-  
+  position: relative;
 }
 table thead th:hover {
   color: map.get($theme_colors, "dark");
   cursor: pointer;
+}
+.sort-icon {
+  position: absolute;
+  right: 22%; /* Điều chỉnh khoảng cách từ bên phải */
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1em; /* Điều chỉnh kích thước biểu tượng nếu cần */
 }
 table tbody tr {
   color: map.get($theme_colors, "dark");
   text-align: center;
 }
 table tbody td {
+
   height: 30px;
   padding: 10px;
   border-bottom: 1px solid rgba(132, 139, 200, 0.18);
   color: map.get($theme_colors, "dark");
+  text-align: center;
+ 
+  .status-btn {
+    border: none;
+    color: map.get($theme_colors, "dark");
+    cursor: default;
+    display: inline-block;
+  }
+  .status-on {
+    background: map.get($theme_colors, "light-primary");
+  }
+  .status-off {
+    background: map.get($theme_colors, "light-danger");
+  }
 }
 
 table tbody tr:last-child td {

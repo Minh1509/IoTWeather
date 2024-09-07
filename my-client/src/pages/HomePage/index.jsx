@@ -1,7 +1,7 @@
 import React from "react";
 import { ROUTER } from "../../routes/router";
 import "./style.scss";
-import {useContext } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { FaTemperatureHalf } from "react-icons/fa6";
 import { WiHumidity } from "react-icons/wi";
@@ -15,7 +15,7 @@ import ControlDevice from "../../components/ControlDevices";
 
 const HomePage = (props) => {
   const { setCurrentPage } = useContext(AppContext);
-  const temperature = props.dataSensor[props.dataSensor.length-1].temperature;
+  const temperature = props.dataSensor[props.dataSensor.length - 1].temperature;
   const humidity = props.dataSensor[props.dataSensor.length - 1].humidity;
   const light = props.dataSensor[props.dataSensor.length - 1].light;
   const { color: colorTem, backgroundColor: backgroundColorTem } =
@@ -83,7 +83,7 @@ const HomePage = (props) => {
         <div className="chart">
           <LineChart data={props.dataSensor} />
         </div>
-        <ControlDevice data = {props.dataHistory}/>
+        <ControlDevice data={props.dataHistory} />
       </div>
     </>
   );
