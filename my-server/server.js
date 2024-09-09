@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-require('./mqtt');
 require('./helpers/connectMysql');
+require('./mqtt');
 const dataSenSor = require('./routes/Data'); 
 
 app.get('/', (req, res, next) => {

@@ -57,7 +57,7 @@ const ProfilePage = () => {
             File báo cáo: <span>BaoCao.pdf</span>
           </li>
           <li>
-            Source code: <span></span>
+            Source code:  <a href="https://github.com/Minh1509/IotWeather.git" style={{color: "#1976d2"}}>IotWeather.git</a>
           </li>
           <li>
             API Docs: <span></span>

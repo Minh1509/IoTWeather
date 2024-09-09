@@ -17,6 +17,8 @@ const HomePage = (props) => {
   const { setCurrentPage } = useContext(AppContext);
   const temperature = props.dataSensor[props.dataSensor.length - 1].temperature;
   const humidity = props.dataSensor[props.dataSensor.length - 1].humidity;
+  // const humidity = 30;
+  // const light = 100;
   const light = props.dataSensor[props.dataSensor.length - 1].light;
   const { color: colorTem, backgroundColor: backgroundColorTem } =
     getColorTemperature(temperature);
@@ -80,9 +82,7 @@ const HomePage = (props) => {
         </li>
       </ul>
       <div className="main-bottom">
-        <div className="chart">
-          <LineChart data={props.dataSensor} />
-        </div>
+        <LineChart data={props.dataSensor} />
         <ControlDevice data={props.dataHistory} />
       </div>
     </>

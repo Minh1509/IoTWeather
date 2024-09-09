@@ -9,17 +9,17 @@ const option = {
 const client = mqtt.connect(baseUri, option);
 
 client.on("connect", () => {
-  console.log("Connected to MQTT server");
+  console.log("Kết nối thành công đến MQTT server");
   client.subscribe("datasensor", (err) => {
     if (!err) {
-      console.log("Subscribed to datasensor");
+      console.log("Subscribed to topic datasensor");
     } else {
       throw err;
     }
   });
   client.subscribe("action_history", (err) => {
     if (!err) {
-      console.log("Subscribed to action_history");
+      console.log("Subscribed to topic action_history");
     } else {
       throw err;
     }
@@ -39,7 +39,7 @@ client.on("message", (topic, message) => {
       if (err) {
         throw err;
       }
-      console.log("Add successful to table datasensor");
+      console.log("Thêm vào database thành công với topic datasensor");
     });
   } else {
     const { device, status } = data;
@@ -48,7 +48,7 @@ client.on("message", (topic, message) => {
       if (err) {
         throw err;
       }
-      console.log("Add successful to table action_history");
+      console.log("Thêm vào database thành công với topic action_history");
     });
   }
 });

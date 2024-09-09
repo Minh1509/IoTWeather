@@ -121,9 +121,7 @@ html {
           justify-content: center;
         }
       }
-      a:hover {
-        color: map.get($theme_colors, "primary");
-      }
+      
     }
   }
 }
@@ -278,3 +276,4 @@ button {
 .hidden {
   opacity: 0;
 }
+
