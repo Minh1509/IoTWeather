@@ -17,7 +17,7 @@ conn.connect((err) => {
   //   }
   //   console.log(result);
   // })
-  console.log("Connected to MySQL");
+  console.log("Kết nối thành công đến MySQL");
 });
 
 module.exports = conn;

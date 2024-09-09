@@ -88,7 +88,6 @@ main {
 .main-bottom {
   margin-top: 20px;
   display: flex;
-  flex-wrap: wrap;
   grid-gap: 24px;
   width: 100%;
   color: map.get($theme_colors, "dark");

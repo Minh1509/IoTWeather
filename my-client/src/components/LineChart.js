@@ -104,13 +104,14 @@ const LineChart = (props) => {
   };
 
   return (
-    <div
+    <div className="line_chart"
       style={{
-        width: "800px",
+        width: "900px",
         height: "450px",
         backgroundColor: "#f6f6f9",
         padding: "0px 20px",
         borderRadius: "20px",
+        flow : 1,
       }}
     >
       <Line data={chartData} options={options} />
