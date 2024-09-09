@@ -55,7 +55,7 @@ WiFiEventHandler wifiDisconnectHandler;
 Ticker wifiReconnectTimer;
 
 unsigned long previousMillis = 0;   // Stores last time temperature was published
-const long interval = 10000;        // Interval at which to publish sensor readings
+const long interval = 5000;        // Interval at which to publish sensor readings
 
 #define MQTT_USERNAME "root"
 #define MQTT_PASSWORD "password"
@@ -105,7 +105,7 @@ void onMqttPublish(uint16_t packetId) {
 }
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   Serial.println();
 
   dht.begin();
