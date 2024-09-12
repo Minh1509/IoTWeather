@@ -77,7 +77,7 @@ const HomePage = (props) => {
           />
           <span className="inf">
             <h3>Light</h3>
-            <p>{light}LUX</p>
+            <p>{light} LUX</p>
           </span>
         </li>
       </ul>

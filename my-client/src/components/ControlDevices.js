@@ -20,8 +20,8 @@ const ControlDevice = (props) => {
 
     const deviceStatusMap = {
       "Quạt": setFanIsOn,
-      "Đèn LED 1": setLedIsOn,
-      "Đèn LED 2": setLed1IsOn,
+      "LED1": setLedIsOn,
+      "LED2": setLed1IsOn,
     };
 
     Object.keys(deviceStatusMap).forEach((device) => {
@@ -33,8 +33,8 @@ const ControlDevice = (props) => {
 
   const baseUri = "ws://localhost:9001"; // Sử dụng cổng WebSocket
   const option = {
-    username: "root",
-    password: "password",
+    username: "minh",
+    password: "test",
   };
 
   const client = mqtt.connect(baseUri, option);
@@ -61,7 +61,7 @@ const ControlDevice = (props) => {
     setLedIsOn(status);
     client.publish(
       "action_history",
-      JSON.stringify({ device: "Đèn LED 1", status: status ? "On" : "Off" })
+      JSON.stringify({ device: "LED1", status: status ? "On" : "Off" })
     );
   };
 
@@ -69,7 +69,7 @@ const ControlDevice = (props) => {
     setLed1IsOn(status);
     client.publish(
       "action_history",
-      JSON.stringify({ device: "Đèn LED 2", status: status ? "On" : "Off" })
+      JSON.stringify({ device: "LED2", status: status ? "On" : "Off" })
     );
   };
 
