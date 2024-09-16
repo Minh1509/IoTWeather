@@ -1,9 +1,9 @@
 const mqtt = require("mqtt");
 const conn = require("./helpers/connectMysql");
-const baseUri = "mqtt://localhost:1883";
+const baseUri = "mqtt://localhost:1893";
 const option = {
-  username: "root",
-  password: "password",
+  username: "minh",
+  password: "test",
 };
 
 const client = mqtt.connect(baseUri, option);
@@ -37,11 +37,13 @@ client.on("message", (topic, message) => {
 
     conn.query(query, [temperature, humidity, light], (err, result) => {
       if (err) {
-        throw err;
+        throw err; 
       }
       console.log("Thêm vào database thành công với topic datasensor");
     });
   } else {
+    
+    client.publish("controldevice" ,JSON.stringify(data) );
     const { device, status } = data;
     const query = `INSERT INTO action_history (device, status, time) VALUES (?, ?, NOW())`;
     conn.query(query, [device, status], (err, result) => {
