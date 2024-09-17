@@ -26,8 +26,8 @@ function App() {
     return <div>Data not found</div>;
   }
 
-  console.log(dataSensor.data);
-  console.log(dataHistory.data);
+  // console.log(dataSensor.data);
+  // console.log(dataHistory.data);
 
   const userRoute = [
     {

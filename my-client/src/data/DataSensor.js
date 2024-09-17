@@ -12,7 +12,6 @@ const useDataSensor = () => {
           "http://localhost:8000/api/datasensor"
         );
         setDataSensor(response.data);
-        console.log(response.data);
       } catch (error) {
         console.log(error);
       }
