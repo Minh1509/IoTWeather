@@ -37,7 +37,7 @@ const HomePage = (props) => {
         </ul>
       </div>
 
-      <StatusSensor />
+      <StatusSensor data = {props.dataSensor}/>
       <div className="main-bottom">
         <LineChart data={props.dataSensor} />
         <ControlDevice data={props.dataHistory} />

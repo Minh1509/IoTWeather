@@ -10,20 +10,21 @@
 // Raspberri Pi Mosquitto MQTT Broker
 #define MQTT_HOST IPAddress(192, 168, 1, 29)
 #define MQTT_PORT 1893
-#define MQTT_PUB_SENSOR "datasensor" // topic pub datasensor
+#define MQTT_PUB_SENSOR "datasensor"  // topic pub datasensor
 #define DHTPIN 14
-#define LIGHT_SENSOR_PIN A0  
+#define LIGHT_SENSOR_PIN A0
 #define LED1_PIN D1
 #define LED2_PIN D2
-#define DHTTYPE DHT11 
+#define FAN_PIN D6
+#define DHTTYPE DHT11
 #define MQTT_USERNAME "minh"
-#define MQTT_PASSWORD "test"
+#define MQTT_PASSWORD "b21dccn531"
 
 // Khai bao bien
 DHT dht(DHTPIN, DHTTYPE);
-float temp;
-float hum;
-int light;  
+int temp;
+int hum;
+int light;
 
 AsyncMqttClient mqttClient;
 Ticker mqttReconnectTimer;
@@ -58,7 +59,7 @@ void connectToMqtt() {
 
 void onMqttConnect(bool sessionPresent) {
   Serial.println("Connected to MQTT.");
-  mqttClient.subscribe("controldevice", 1);  // subscribe to "controldevice"
+  mqttClient.subscribe("controldevice", 1); 
 }
 
 void onMqttDisconnect(AsyncMqttClientDisconnectReason reason) {
@@ -71,15 +72,25 @@ void onMqttDisconnect(AsyncMqttClientDisconnectReason reason) {
 
 // Callback function for handling MQTT messages
 void onMessage(char* topic, char* payload, AsyncMqttClientMessageProperties properties, size_t length, size_t index, size_t total) {
-  Serial.printf("Message arrived [%s]\n", topic);
 
   // Parse JSON payload
   DynamicJsonDocument doc(1024);
   deserializeJson(doc, payload);
 
-  // Control LEDs based on JSON data
-  digitalWrite(LED1_PIN, (doc["device"] == "LED1" && doc["status"] == "On") ? HIGH : LOW);
-  digitalWrite(LED2_PIN, (doc["device"] == "LED2" && doc["status"] == "On") ? HIGH : LOW);
+  String device = doc["device"];
+  String status = doc["status"];
+  Serial.printf("Message arrived: [%s,%s]\n", device, status);
+
+  // Điều khiển LED dựa trên thông tin JSON
+  if (device == "LED1") {
+    digitalWrite(LED1_PIN, (status == "On") ? HIGH : LOW);
+  } else if (device == "LED2") {
+    digitalWrite(LED2_PIN, (status == "On") ? HIGH : LOW);
+  }
+  else {
+    digitalWrite(FAN_PIN, (status == "On") ? HIGH:LOW);
+  }
+
 }
 
 
@@ -91,6 +102,7 @@ void setup() {
 
   pinMode(LED1_PIN, OUTPUT);
   pinMode(LED2_PIN, OUTPUT);
+  pinMode(FAN_PIN, OUTPUT);
 
   wifiConnectHandler = WiFi.onStationModeGotIP(onWifiConnect);
   wifiDisconnectHandler = WiFi.onStationModeDisconnected(onWifiDisconnect);
@@ -109,19 +121,15 @@ void loop() {
   unsigned long currentMillis = millis();
   if (currentMillis - previousMillis >= interval) {
     previousMillis = currentMillis;
-    
+
     hum = dht.readHumidity();
     temp = dht.readTemperature();
-    light = analogRead(LIGHT_SENSOR_PIN);  
-
-    // Round temperature and humidity to 1 decimal place
-    float roundedTemp = round(temp * 10) / 10.0;
-    float roundedHum = round(hum * 10) / 10.0;
+    light = analogRead(LIGHT_SENSOR_PIN);
 
     // Create JSON object
     DynamicJsonDocument doc(1024);
-    doc["temperature"] = roundedTemp;
-    doc["humidity"] = roundedHum;
+    doc["temperature"] = temp;
+    doc["humidity"] = hum;
     doc["light"] = light;
 
     // Serialize JSON to string
@@ -130,7 +138,6 @@ void loop() {
 
     // Publish sensor data
     mqttClient.publish(MQTT_PUB_SENSOR, 1, true, jsonString.c_str());
-    Serial.println("Message published:");
     Serial.print("Topic: ");
     Serial.println(MQTT_PUB_SENSOR);
     Serial.print("Message: ");

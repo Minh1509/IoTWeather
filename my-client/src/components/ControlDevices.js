@@ -19,7 +19,7 @@ const ControlDevice = (props) => {
     }
 
     const deviceStatusMap = {
-      "Quạt": setFanIsOn,
+      "Fan": setFanIsOn,
       "LED1": setLedIsOn,
       "LED2": setLed1IsOn,
     };
@@ -34,14 +34,14 @@ const ControlDevice = (props) => {
   const baseUri = "ws://localhost:9001"; // Sử dụng cổng WebSocket
   const option = {
     username: "minh",
-    password: "test",
+    password: "b21dccn531",
   };
 
   const client = mqtt.connect(baseUri, option);
 
   useEffect(() => {
     client.on("connect", () => {
-      console.log("Connected to MQTT server");
+      // console.log("Connected to MQTT server");
     });
 
     return () => {
@@ -53,7 +53,7 @@ const ControlDevice = (props) => {
     setFanIsOn(status);
     client.publish(
       "action_history",
-      JSON.stringify({ device: "Quạt", status: status ? "On" : "Off" })
+      JSON.stringify({ device: "Fan", status: status ? "On" : "Off" })
     );
   };
 
