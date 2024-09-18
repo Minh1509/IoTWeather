@@ -7,51 +7,36 @@ import getColorTemperature from "../data/SetColorTemperature";
 import getColorLight from "../data/SetColorLight";
 import mqtt from "mqtt";
 
-const StatusSensor = () => {
-  const [temperature, setTemperature] = useState(null);
-  const [humidity, setHumidity] = useState(null);
-  const [light, setLight] = useState(null);
+const StatusSensor = (props) => {
+  const data = props.data;
+  const [temperature, setTemperature] = useState(data[data.length-1].temperature);
+  const [humidity, setHumidity] = useState(data[data.length-1].humidity);
+  const [light, setLight] = useState(data[data.length-1].light);
 
-  const [colorTem, setColorTem] = useState("");
-  const [backgroundColorTem, setBackgroundColorTem] = useState("");
-  const [colorHum, setColorHum] = useState("");
-  const [backgroundColorHum, setBackgroundColorHum] = useState("");
-  const [colorLight, setColorLight] = useState("");
-  const [backgroundColorLight, setBackgroundColorLight] = useState("");
+  const {color: colorTem , backgroundColor: backgroundColorTem} = getColorTemperature(temperature);
+  const {color: colorHum , backgroundColor: backgroundColorHum} = getColorHumidity(humidity);
+  const {color: colorLight , backgroundColor: backgroundColorLight} = getColorLight(light);
+
 
   const baseUri = "ws://localhost:9001";
   const option = {
     username: "minh",
-    password: "test",
+    password: "b21dccn531",
   };
 
   useEffect(() => {
     const client = mqtt.connect(baseUri, option);
 
     client.on("connect", () => {
-      console.log("Connected to MQTT broker");
       client.subscribe("datasensor_client");
     });
 
     client.on("message", (topic, message) => {
       const data = JSON.parse(message.toString());
-      console.log(data);
       setTemperature(data.temperature);
       setHumidity(data.humidity);
       setLight(data.light);
 
-      setColorTem(getColorTemperature(data.temperature).color);
-      setBackgroundColorTem(
-        getColorTemperature(data.temperature).backgroundColor
-      );
-      setColorHum(getColorHumidity(data.humidity).color);
-      setBackgroundColorHum(
-        getColorHumidity(data.humidity).backgroundColor
-      );
-      setColorLight(getColorLight(data.light).color);
-      setBackgroundColorLight(
-        getColorLight(data.light).backgroundColor
-      );
     });
 
     return () => {
