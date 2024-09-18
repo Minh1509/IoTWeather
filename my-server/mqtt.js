@@ -1,5 +1,5 @@
 const mqtt = require("mqtt");
-const conn = require("./helpers/connectMysql");
+const conn = require("./db/connectMysql");
 const baseUri = "mqtt://localhost:1893";
 const option = {
   username: "minh",
@@ -32,6 +32,7 @@ client.on("message", (topic, message) => {
   let data;
   data = JSON.parse(message.toString());
   if (topic === "datasensor") {
+    client.publish("datasensor_client" , JSON.stringify(data));
     const { temperature, humidity, light } = data;
     const query = `INSERT INTO datasensor (temperature, humidity, light, time) VALUES (?, ?, ?, NOW())`;
 

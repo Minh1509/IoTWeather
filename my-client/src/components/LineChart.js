@@ -23,7 +23,6 @@ ChartJS.register(
 );
 
 const LineChart = (props) => {
-  console.log(props.data);
   const data = props.data.slice(-5);
   const labels = data.map((item) => formatter(item.time));
   const temData = data.map((item) => item.temperature);

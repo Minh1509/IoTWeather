@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const createError = require("http-errors");
-const conn = require("../helpers/connectMysql");
+const conn = require("../db/connectMysql");
 const { formatter } = require('../utils/fomatter')
 
 const formatData = (data, formatter) => {
