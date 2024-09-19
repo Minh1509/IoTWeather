@@ -124,7 +124,7 @@ void loop() {
 
     hum = dht.readHumidity();
     temp = dht.readTemperature();
-    light = analogRead(LIGHT_SENSOR_PIN);
+    light = 1024 - analogRead(LIGHT_SENSOR_PIN);
 
     // Create JSON object
     DynamicJsonDocument doc(1024);
