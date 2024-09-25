@@ -56,3 +56,5 @@ client.on("message", (topic, message) => {
     });
   }
 });
+
+module.exports = client;

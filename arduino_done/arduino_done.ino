@@ -11,14 +11,14 @@
 #define MQTT_HOST IPAddress(192, 168, 1, 29)
 #define MQTT_PORT 1893
 #define MQTT_PUB_SENSOR "datasensor"  // topic pub datasensor
+#define MQTT_USERNAME "minh"
+#define MQTT_PASSWORD "b21dccn531"
 #define DHTPIN 14
 #define LIGHT_SENSOR_PIN A0
 #define LED1_PIN D1
 #define LED2_PIN D2
 #define FAN_PIN D6
 #define DHTTYPE DHT11
-#define MQTT_USERNAME "minh"
-#define MQTT_PASSWORD "b21dccn531"
 
 // Khai bao bien
 DHT dht(DHTPIN, DHTTYPE);
@@ -73,7 +73,6 @@ void onMqttDisconnect(AsyncMqttClientDisconnectReason reason) {
 // Callback function for handling MQTT messages
 void onMessage(char* topic, char* payload, AsyncMqttClientMessageProperties properties, size_t length, size_t index, size_t total) {
 
-  // Parse JSON payload
   DynamicJsonDocument doc(1024);
   deserializeJson(doc, payload);
 
@@ -109,7 +108,7 @@ void setup() {
 
   mqttClient.onConnect(onMqttConnect);
   mqttClient.onDisconnect(onMqttDisconnect);
-  mqttClient.onMessage(onMessage);  // Register callback to handle messages
+  mqttClient.onMessage(onMessage);  
 
   mqttClient.setServer(MQTT_HOST, MQTT_PORT);
   mqttClient.setCredentials(MQTT_USERNAME, MQTT_PASSWORD);

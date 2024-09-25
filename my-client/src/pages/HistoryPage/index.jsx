@@ -14,7 +14,7 @@ const HistoryPage = (props) => {
     <>
       <div className="main-header">
         <div className="main-header-left">
-          <h1>History</h1>
+          <h1>Action History</h1>
           <ul className="breadcrumb">
             <li>
               <Link

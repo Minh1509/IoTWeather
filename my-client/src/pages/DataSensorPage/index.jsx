@@ -27,7 +27,7 @@ const DataSensorPage = (props) => {
                 onClick={() => setCurrentPage("/history")}
                 className="active"
               >
-                History
+                Action History
               </Link>
             </li>
           </ul>

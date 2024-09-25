@@ -55,7 +55,7 @@ const SideBar = () => {
               onClick={() => handleLinkClick(ROUTER.USER.HISTORY)}
             >
               <FaHistory />
-              History
+              Action History
             </Link>
           </li>
           <li className={activeLink === ROUTER.USER.PROFILE ? "active" : ""}>
