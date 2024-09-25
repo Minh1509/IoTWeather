@@ -56,6 +56,10 @@ main {
         align-items: center;
         grid-gap: 24px;
         cursor: pointer;
+        &.warning {
+          animation: blink 1s infinite;
+        }
+    
 
         svg {
           width: 70px;
@@ -192,4 +196,16 @@ main {
 
 .blink {
   animation: blinkColor 1s infinite;
+}
+
+@keyframes blink {
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: #d32f2f;
+  }
+  100% {
+    background-color: transparent;
+  }
 }

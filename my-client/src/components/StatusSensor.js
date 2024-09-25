@@ -46,7 +46,7 @@ const StatusSensor = (props) => {
 
   return (
     <ul className="insights">
-      <li>
+      <li className={temperature>= 35 ? "warning" : ""}>
         <FaTemperatureHalf
           style={{ color: colorTem, backgroundColor: backgroundColorTem }}
         />
@@ -73,6 +73,7 @@ const StatusSensor = (props) => {
           <p>{light} LUX</p>
         </span>
       </li>
+      
     </ul>
   );
 };

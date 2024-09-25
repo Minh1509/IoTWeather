@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const createError = require("http-errors");
-const conn = require("../db/connectMysql");
-const { formatter } = require('../utils/fomatter')
+const conn = require("../../db/connectMysql");
+const { formatter } = require('../../utils/fomatter');
+
 
 const formatData = (data, formatter) => {
   return data.map((item) => ({
@@ -14,7 +15,7 @@ const formatData = (data, formatter) => {
 router.get("/datasensor", (req, res, next) => {
   conn.query("select * from datasensor", (err, result) => {
     if (err) {
-      next(createError(500));
+      next(createError(409));
     } else {
       const formatterResult = formatData(result, formatter)
       res.json({
@@ -29,7 +30,7 @@ router.get("/datasensor", (req, res, next) => {
 router.get("/action_history", (req, res, next) => {
   conn.query("select * from action_history", (err, result) => {
     if (err) {
-      next(createError(500));
+      next(createError(409));
     } else {
       const formatterResult = formatData(result, formatter)
       res.json({
@@ -39,5 +40,6 @@ router.get("/action_history", (req, res, next) => {
     }
   });
 })
+
 
 module.exports = router;

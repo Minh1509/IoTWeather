@@ -4,6 +4,7 @@ import { FaSortUp, FaSortDown } from "react-icons/fa";
 
 const DataSensorTable = (props) => {
   const data = props.data;
+  console.log(data);
   const [searchTerm, setSearchTerm] = useState("");
   const [dataType, setDataType] = useState("all");
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
