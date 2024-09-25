@@ -4,21 +4,17 @@ const cors = require('cors');
 require('dotenv').config
 require('./db/connectMysql');
 require('./mqtt');
-const dataSenSor = require('./routes/access/data.router');
-const dataMqtt = require("./routes/PubSubMqtt/pubsub.router")
+const data = require("./routes/index.js");
 
 
-app.get('/', (req, res, next) => {
-    console.log("Hello");
-})
 app.use(cors({
     origin:'http://localhost:3000',
     methods: ['GET', 'POST'],
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/api', dataSenSor);
-app.use('/api', dataMqtt);
+app.use('/api', data);
+
 
 const port =   8000;
 app.listen(port , () => {

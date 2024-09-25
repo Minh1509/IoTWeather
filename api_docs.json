@@ -1,155 +1,102 @@
 {
-    "collection": {
-      "info": {
-        "_postman_id": "c5cab6e0-4900-44e9-94c3-afddc02eaa43",
-        "name": "IoT",
-        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-        "updatedAt": "2024-09-23T15:56:31.000Z",
-        "createdAt": "2024-09-19T03:52:24.000Z",
-        "lastUpdatedBy": "37921825",
-        "uid": "37921825-c5cab6e0-4900-44e9-94c3-afddc02eaa43"
+  "collection": {
+    "info": {
+      "_postman_id": "c5cab6e0-4900-44e9-94c3-afddc02eaa43",
+      "name": "IoT",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+      "updatedAt": "2024-09-25T06:31:19.000Z",
+      "createdAt": "2024-09-19T03:52:24.000Z",
+      "lastUpdatedBy": "37921825",
+      "uid": "37921825-c5cab6e0-4900-44e9-94c3-afddc02eaa43"
+    },
+    "item": [
+      {
+        "name": "DataSenSor",
+        "id": "fc4e3b8e-09ad-49a6-914e-3234acd73f31",
+        "protocolProfileBehavior": {
+          "disableBodyPruning": true
+        },
+        "request": {
+          "auth": {
+            "type": "noauth"
+          },
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:8000/api/datasensor",
+            "protocol": "http",
+            "host": [
+              "localhost"
+            ],
+            "port": "8000",
+            "path": [
+              "api",
+              "datasensor"
+            ]
+          }
+        },
+        "response": [],
+        "uid": "37921825-fc4e3b8e-09ad-49a6-914e-3234acd73f31"
       },
-      "item": [
-        {
-          "name": "DataSenSor",
-          "id": "fc4e3b8e-09ad-49a6-914e-3234acd73f31",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "auth": {
-              "type": "noauth"
-            },
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:8000/api/datasensor",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8000",
-              "path": [
-                "api",
-                "datasensor"
-              ]
-            }
-          },
-          "response": [],
-          "uid": "37921825-fc4e3b8e-09ad-49a6-914e-3234acd73f31"
+      {
+        "name": "ActionHistory",
+        "id": "60627377-54e8-4ef1-8778-6eab13f64156",
+        "protocolProfileBehavior": {
+          "disableBodyPruning": true
         },
-        {
-          "name": "ActionHistory",
-          "id": "60627377-54e8-4ef1-8778-6eab13f64156",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:8000/api/action_history",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8000",
-              "path": [
-                "api",
-                "action_history"
-              ]
-            }
-          },
-          "response": [],
-          "uid": "37921825-60627377-54e8-4ef1-8778-6eab13f64156"
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:8000/api/action_history",
+            "protocol": "http",
+            "host": [
+              "localhost"
+            ],
+            "port": "8000",
+            "path": [
+              "api",
+              "action_history"
+            ]
+          }
         },
-        {
-          "name": "Publish",
-          "id": "b592759f-18a3-4a05-9195-9f24cd8913b1",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"topic\": \"datasensor\",\r\n    \"message\": {\r\n        \"temperature\": 28,\r\n        \"humidity\": 72,\r\n        \"light\": 123\r\n    }\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
+        "response": [],
+        "uid": "37921825-60627377-54e8-4ef1-8778-6eab13f64156"
+      },
+      {
+        "name": "Publish",
+        "id": "b592759f-18a3-4a05-9195-9f24cd8913b1",
+        "protocolProfileBehavior": {
+          "disableBodyPruning": true
+        },
+        "request": {
+          "method": "POST",
+          "header": [],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n    \"topic\": \"datasensor\",\r\n    \"message\": {\r\n        \"temperature\": 28,\r\n        \"humidity\": 72,\r\n        \"light\": 123\r\n    }\r\n}",
+            "options": {
+              "raw": {
+                "language": "json"
               }
-            },
-            "url": {
-              "raw": "http://localhost:8000/api/publish",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8000",
-              "path": [
-                "api",
-                "publish"
-              ]
             }
           },
-          "response": [],
-          "uid": "37921825-b592759f-18a3-4a05-9195-9f24cd8913b1"
+          "url": {
+            "raw": "http://localhost:8000/api/publish",
+            "protocol": "http",
+            "host": [
+              "localhost"
+            ],
+            "port": "8000",
+            "path": [
+              "api",
+              "publish"
+            ]
+          }
         },
-        {
-          "name": "sub datasensor",
-          "id": "b9ba70ee-32d3-419c-82f7-e21533601727",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:8000/api/subscribe/datasensor",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8000",
-              "path": [
-                "api",
-                "subscribe",
-                "datasensor"
-              ]
-            }
-          },
-          "response": [],
-          "uid": "37921825-b9ba70ee-32d3-419c-82f7-e21533601727"
-        },
-        {
-          "name": "sub action_history",
-          "id": "e75e6761-0eeb-42d1-8d25-62ca14502945",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:8000/api/subscribe/acion_history",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8000",
-              "path": [
-                "api",
-                "subscribe",
-                "acion_history"
-              ]
-            }
-          },
-          "response": [],
-          "uid": "37921825-e75e6761-0eeb-42d1-8d25-62ca14502945"
-        }
-      ]
-    }
+        "response": [],
+        "uid": "37921825-b592759f-18a3-4a05-9195-9f24cd8913b1"
+      }
+    ]
   }
-  
+}
