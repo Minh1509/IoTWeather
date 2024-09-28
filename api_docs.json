@@ -4,7 +4,7 @@
       "_postman_id": "c5cab6e0-4900-44e9-94c3-afddc02eaa43",
       "name": "IoT",
       "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-      "updatedAt": "2024-09-25T06:31:19.000Z",
+      "updatedAt": "2024-09-28T03:35:22.000Z",
       "createdAt": "2024-09-19T03:52:24.000Z",
       "lastUpdatedBy": "37921825",
       "uid": "37921825-c5cab6e0-4900-44e9-94c3-afddc02eaa43"
@@ -64,7 +64,41 @@
         "uid": "37921825-60627377-54e8-4ef1-8778-6eab13f64156"
       },
       {
-        "name": "Publish",
+        "name": "Get Count",
+        "id": "eecb7675-9fe8-4b1d-a275-67e0e94aa202",
+        "protocolProfileBehavior": {
+          "disableBodyPruning": true
+        },
+        "request": {
+          "method": "GET",
+          "header": [],
+          "body": {
+            "mode": "raw",
+            "raw": "",
+            "options": {
+              "raw": {
+                "language": "json"
+              }
+            }
+          },
+          "url": {
+            "raw": "http://localhost:8000/api/count",
+            "protocol": "http",
+            "host": [
+              "localhost"
+            ],
+            "port": "8000",
+            "path": [
+              "api",
+              "count"
+            ]
+          }
+        },
+        "response": [],
+        "uid": "37921825-eecb7675-9fe8-4b1d-a275-67e0e94aa202"
+      },
+      {
+        "name": "Publish datasensor",
         "id": "b592759f-18a3-4a05-9195-9f24cd8913b1",
         "protocolProfileBehavior": {
           "disableBodyPruning": true
@@ -74,7 +108,7 @@
           "header": [],
           "body": {
             "mode": "raw",
-            "raw": "{\r\n    \"topic\": \"datasensor\",\r\n    \"message\": {\r\n        \"temperature\": 28,\r\n        \"humidity\": 72,\r\n        \"light\": 123\r\n    }\r\n}",
+            "raw": "{\r\n    \"topic\": \"datasensor\",\r\n    \"message\": {\r\n        \"temperature\": 37,\r\n        \"humidity\": 72,\r\n        \"light\": 123,\r\n        \"smoke\": 60\r\n    }\r\n}",
             "options": {
               "raw": {
                 "language": "json"
