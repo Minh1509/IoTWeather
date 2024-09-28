@@ -1,81 +1,69 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { FaFan, FaRegLightbulb } from "react-icons/fa";
 import mqtt from "mqtt";
 
 const ControlDevice = (props) => {
-  const [isFanOn, setFanIsOn] = useState(true);
-  const [isLedOn, setLedIsOn] = useState(true);
-  const [isLed1On, setLed1IsOn] = useState(true);
-  const data = props.data;
+  const [isFanOn, setFanIsOn] = useState(false);
+  const [isLedOn, setLedIsOn] = useState(false);
+  const [isLed1On, setLed1IsOn] = useState(false);
+  const dataSmoke = props.dataSmoke;
+
+  const clientRef = useRef(null);
+
   useEffect(() => {
-    const latestDevices = {};
-
-    for (let i = data.length - 1; i >= 0; i--) {
-      const device = data[i].device;
-      const status = data[i].status;
-      if (!latestDevices[device]) {
-        latestDevices[device] = { device, status };
-      }
-    }
-
-    const deviceStatusMap = {
-      "Fan": setFanIsOn,
-      "LED1": setLedIsOn,
-      "LED2": setLed1IsOn,
+    const baseUri = "ws://localhost:9001"; // Sử dụng cổng WebSocket
+    const option = {
+      username: "minh",
+      password: "b21dccn531",
     };
 
-    Object.keys(deviceStatusMap).forEach((device) => {
-      if (latestDevices[device]) {
-        deviceStatusMap[device](latestDevices[device].status === "On");
-      }
+    clientRef.current = mqtt.connect(baseUri, option);
+
+    clientRef.current.on("connect", () => {
+      console.log("Connected to MQTT server");
+      clientRef.current.subscribe("controldevice_client", { qos: 1 });
     });
-  }, [data]);
 
-  const baseUri = "ws://localhost:9001"; // Sử dụng cổng WebSocket
-  const option = {
-    username: "minh",
-    password: "b21dccn531",
-  };
+    clientRef.current.on("message", (topic, message) => {
+      if (topic === "controldevice_client") {
+        const payload = JSON.parse(message.toString());
+        const { device, status } = payload;
 
-  const client = mqtt.connect(baseUri, option);
-
-  useEffect(() => {
-    client.on("connect", () => {
-      // console.log("Connected to MQTT server");
+        if (device === "Fan") {
+          setFanIsOn(status === "On");
+        } else if (device === "LED1") {
+          setLedIsOn(status === "On");
+        } else if (device === "LED2") {
+          setLed1IsOn(status === "On");
+        }
+      }
     });
 
     return () => {
-      client.end();
+      clientRef.current.end();
     };
-  }, [client]);
+  }, []);
 
-  const handleToggle = (status) => {
-    setFanIsOn(status);
-    client.publish(
-      "action_history",
-      JSON.stringify({ device: "Fan", status: status ? "On" : "Off" })
-    );
-  };
+  useEffect(() => {
+    if (dataSmoke >= 80) {
+      clientRef.current.publish(
+        "controldevice",
+        JSON.stringify({ device: "Fan", status: "On" })
+      );
+    }
+  }, [dataSmoke]);
 
-  const handleToggleLed = (status) => {
-    setLedIsOn(status);
-    client.publish(
-      "action_history",
-      JSON.stringify({ device: "LED1", status: status ? "On" : "Off" })
-    );
-  };
-
-  const handleToggleLed1 = (status) => {
-    setLed1IsOn(status);
-    client.publish(
-      "action_history",
-      JSON.stringify({ device: "LED2", status: status ? "On" : "Off" })
+  const handleDeviceControl = (device, status) => {
+    clientRef.current.publish(
+      "controldevice",
+      JSON.stringify({ device, status })
     );
   };
 
   return (
     <div className="device">
       <h3>Control Device</h3>
+
       <ul className="device-item">
         <li>
           <FaFan className={isFanOn ? "fan-icon-spin" : ""} />
@@ -84,13 +72,13 @@ const ControlDevice = (props) => {
             <div className="active">
               <button
                 className={`btn-on ${isFanOn ? "activate" : ""}`}
-                onClick={() => handleToggle(true)}
+                onClick={() => handleDeviceControl("Fan", "On")}
               >
                 On
               </button>
               <button
                 className={`btn-off ${!isFanOn ? "notactivate" : ""}`}
-                onClick={() => handleToggle(false)}
+                onClick={() => handleDeviceControl("Fan", "Off")}
               >
                 Off
               </button>
@@ -104,13 +92,13 @@ const ControlDevice = (props) => {
             <div className="active">
               <button
                 className={`btn-on ${isLedOn ? "activate" : ""}`}
-                onClick={() => handleToggleLed(true)}
+                onClick={() => handleDeviceControl("LED1", "On")}
               >
                 On
               </button>
               <button
                 className={`btn-off ${!isLedOn ? "notactivate" : ""}`}
-                onClick={() => handleToggleLed(false)}
+                onClick={() => handleDeviceControl("LED1", "Off")}
               >
                 Off
               </button>
@@ -124,13 +112,13 @@ const ControlDevice = (props) => {
             <div className="active">
               <button
                 className={`btn-on ${isLed1On ? "activate" : ""}`}
-                onClick={() => handleToggleLed1(true)}
+                onClick={() => handleDeviceControl("LED2", "On")}
               >
                 On
               </button>
               <button
                 className={`btn-off ${!isLed1On ? "notactivate" : ""}`}
-                onClick={() => handleToggleLed1(false)}
+                onClick={() => handleDeviceControl("LED2", "Off")}
               >
                 Off
               </button>

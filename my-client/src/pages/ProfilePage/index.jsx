@@ -60,7 +60,7 @@ const ProfilePage = () => {
             Source code:  <a href="https://github.com/Minh1509/IotWeather.git" style={{color: "#1976d2"}}>IotWeather.git</a>
           </li>
           <li>
-            API Docs: <a href="https://github.com/Minh1509/IotWeather.git" style = {{color: "#1976d2"}}>Api_docs.json</a>
+            API Docs: <a href="https://github.com/Minh1509/IotWeather/blob/main/api_docs.json" style = {{color: "#1976d2"}}>Api_docs.json</a>
           </li>
         </ul>
         <img src="/images/myimage.jpg" alt="MyImage" />

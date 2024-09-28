@@ -22,43 +22,17 @@ ChartJS.register(
   Legend
 );
 
-const LineChart = (props) => {
+const LineChartSmoke = (props) => {
   const data = props.data.slice(-5);
   const labels = data.map((item) => formatter(item.time));
-  const temData = data.map((item) => item.temperature);
-  const humidData = data.map((item) => item.humidity);
-  const lightData = data.map((item) => item.light);
   const smokeData = data.map((item) => item.smoke);
 
   const chartData = {
     labels,
     datasets: [
+      
       {
-        label: "Temperature (°C)",
-        data: temData,
-        borderColor: "rgba(75, 192, 192, 1)",
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
-        fill: false,
-        yAxisID: 'y-left',
-      },
-      {
-        label: "Humidity (%)",
-        data: humidData,
-        borderColor: "rgba(153, 102, 255, 1)",
-        backgroundColor: "rgba(153, 102, 255, 0.2)",
-        fill: false,
-        yAxisID: 'y-left',
-      },
-      {
-        label: "Light (lux)",
-        data: lightData,
-        borderColor: "rgba(255, 159, 64, 1)",
-        backgroundColor: "rgba(255, 159, 64, 0.2)",
-        fill: false,
-        yAxisID: 'y-right',
-      },
-      {
-        label: "Smoke (%)",
+        label: "Smoke",
         data: smokeData,
         borderColor: "rgba(255, 99, 132, 1)", // Màu đỏ
         backgroundColor: "rgba(255, 99, 132, 0.2)", // Màu nền đỏ nhạt
@@ -94,20 +68,11 @@ const LineChart = (props) => {
         position: 'left',
         title: {
           display: true,
-          text: 'Temperature (°C)   /   Humidity (%)   /   Smoke (%)',
+          text: 'Smoke',
         },
       },
-      'y-right': {
-        type: 'linear',
-        position: 'right',
-        title: {
-          display: true,
-          text: 'Light (lux)',
-        },
-        grid: {
-          drawOnChartArea: false, // only want the grid lines for one axis to show up
-        },
-      },
+      
+      
     },
   };
 
@@ -127,4 +92,4 @@ const LineChart = (props) => {
   );
 };
 
-export default LineChart;
+export default LineChartSmoke;

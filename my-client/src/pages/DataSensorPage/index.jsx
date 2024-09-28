@@ -1,13 +1,27 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../data/AppContext";
 import { Link } from "react-router-dom";
 import { ROUTER } from "../../routes/router";
+import axios from "axios";
 
 import Table from "../../components/DataSensorTable";
 import "./style.scss";
 
 const DataSensorPage = (props) => {
   const { setCurrentPage } = useContext(AppContext);
+  const [dataCount, setDataCount] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/api/count");
+        setDataCount(Number(response.data.data));
+      } catch (error) {}
+    };
+
+    fetchData();
+    setInterval(fetchData, 5000);
+  }, []);
 
   return (
     <>
@@ -32,9 +46,10 @@ const DataSensorPage = (props) => {
             </li>
           </ul>
         </div>
-        <Table data = {props.dataSensor}/>
+        <Table data={props.dataSensor} dataCount={dataCount} />
       </div>
     </>
   );
 };
+
 export default DataSensorPage;

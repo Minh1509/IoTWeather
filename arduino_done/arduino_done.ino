@@ -8,7 +8,7 @@
 #define WIFI_PASSWORD "0976300109"
 
 // Raspberri Pi Mosquitto MQTT Broker
-#define MQTT_HOST IPAddress(192, 168, 1, 29)
+#define MQTT_HOST IPAddress(192, 168, 1, 29 )
 #define MQTT_PORT 1893
 #define MQTT_PUB_SENSOR "datasensor"  // topic pub datasensor
 #define MQTT_USERNAME "minh"
@@ -25,6 +25,7 @@ DHT dht(DHTPIN, DHTTYPE);
 int temp;
 int hum;
 int light;
+int smoke;
 
 AsyncMqttClient mqttClient;
 Ticker mqttReconnectTimer;
@@ -86,9 +87,20 @@ void onMessage(char* topic, char* payload, AsyncMqttClientMessageProperties prop
   } else if (device == "LED2") {
     digitalWrite(LED2_PIN, (status == "On") ? HIGH : LOW);
   }
-  else {
+  else if(device == "Fan"){
     digitalWrite(FAN_PIN, (status == "On") ? HIGH:LOW);
   }
+  else if(device == "ALL") {
+    digitalWrite(LED1_PIN, (status == "On") ? HIGH : LOW);
+    digitalWrite(LED2_PIN, (status == "On") ? HIGH : LOW);
+    digitalWrite(FAN_PIN, (status == "On") ? HIGH:LOW);
+  }
+  delay(1000);
+  String jsonString;
+  serializeJson(doc, jsonString);
+  mqttClient.publish("controldevice_server", 1, true, jsonString.c_str());
+  Serial.print("Published to controldevice_server: ");
+  Serial.println(jsonString.c_str());
 
 }
 
@@ -124,12 +136,14 @@ void loop() {
     hum = dht.readHumidity();
     temp = dht.readTemperature();
     light = 1024 - analogRead(LIGHT_SENSOR_PIN);
+    smoke = random(1, 101);
 
     // Create JSON object
     DynamicJsonDocument doc(1024);
     doc["temperature"] = temp;
     doc["humidity"] = hum;
     doc["light"] = light;
+     doc["smoke"] = smoke; 
 
     // Serialize JSON to string
     String jsonString;
@@ -141,5 +155,5 @@ void loop() {
     Serial.println(MQTT_PUB_SENSOR);
     Serial.print("Message: ");
     Serial.println(jsonString.c_str());
-  }
+    }
 }

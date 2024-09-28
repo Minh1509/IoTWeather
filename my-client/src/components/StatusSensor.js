@@ -6,16 +6,20 @@ import getColorHumidity from "../data/SetColorHumidity";
 import getColorTemperature from "../data/SetColorTemperature";
 import getColorLight from "../data/SetColorLight";
 import mqtt from "mqtt";
+import { FaSmog } from "react-icons/fa";
+import getColorSmoke from "../data/SetColorSmoke";
 
 const StatusSensor = (props) => {
   const data = props.data;
   const [temperature, setTemperature] = useState(data[data.length-1].temperature);
   const [humidity, setHumidity] = useState(data[data.length-1].humidity);
   const [light, setLight] = useState(data[data.length-1].light);
+  const [smoke, setSmoke] = useState(data[data.length-1].smoke);
 
-  const {color: colorTem , backgroundColor: backgroundColorTem} = getColorTemperature(temperature);
-  const {color: colorHum , backgroundColor: backgroundColorHum} = getColorHumidity(humidity);
-  const {color: colorLight , backgroundColor: backgroundColorLight} = getColorLight(light);
+  const {color: colorTem } = getColorTemperature(temperature);
+  const {color: colorHum } = getColorHumidity(humidity);
+  const {color: colorLight } = getColorLight(light);
+  const {color: colorSmoke } = getColorSmoke(smoke);
 
 
   const baseUri = "ws://localhost:9001";
@@ -36,6 +40,7 @@ const StatusSensor = (props) => {
       setTemperature(data.temperature);
       setHumidity(data.humidity);
       setLight(data.light);
+      setSmoke(data.smoke);
 
     });
 
@@ -46,31 +51,40 @@ const StatusSensor = (props) => {
 
   return (
     <ul className="insights">
-      <li className={temperature>= 35 ? "warning" : ""}>
+      <li style = {{backgroundColor: colorTem}}>
         <FaTemperatureHalf
-          style={{ color: colorTem, backgroundColor: backgroundColorTem }}
+          style={{ color: "red" }}
         />
         <span className="inf">
           <h3>Temperature</h3>
           <p>{temperature}°C</p>
         </span>
       </li>
-      <li>
+      <li style = {{backgroundColor: colorHum}}>
         <WiHumidity
-          style={{ color: colorHum, backgroundColor: backgroundColorHum }}
+          style={{ color: "blue"}}
         />
         <span className="inf">
           <h3>Humidity</h3>
           <p>{humidity}%</p>
         </span>
       </li>
-      <li>
+      <li style = {{backgroundColor: colorLight}}>
         <CiLight
-          style={{ color: colorLight, backgroundColor: backgroundColorLight }}
+          style={{ color: "yellow" }}
         />
         <span className="inf">
           <h3>Light</h3>
           <p>{light} LUX</p>
+        </span>
+      </li>
+      <li className={smoke>= 80 ? "warning" : ""} style = {{backgroundColor: colorSmoke}}>
+        <FaSmog 
+          style={{ color: "grey"}}
+        />
+        <span className="inf">
+          <h3>Smoke</h3>
+          <p>{smoke}%</p>
         </span>
       </li>
       

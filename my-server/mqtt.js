@@ -17,9 +17,9 @@ client.on("connect", () => {
       throw err;
     }
   });
-  client.subscribe("action_history", (err) => {
+  client.subscribe("controldevice_server", (err) => {
     if (!err) {
-      console.log("Subscribed to topic action_history");
+      console.log("Subscribed to topic controldevice_server");
     } else {
       throw err;
     }
@@ -31,28 +31,26 @@ client.on("message", (topic, message) => {
 
   let data;
   data = JSON.parse(message.toString());
-  if (topic === "datasensor") {
-    
+  if (topic === "datasensor") { 
     client.publish("datasensor_client" , JSON.stringify(data));
-    const { temperature, humidity, light } = data;
-    const query = `INSERT INTO datasensor (temperature, humidity, light, time) VALUES (?, ?, ?, NOW())`;
+    const { temperature, humidity, light, smoke } = data;
+    const query = `INSERT INTO datasensor (temperature, humidity, light, smoke, time) VALUES (?, ?, ?, ?, NOW())`;
 
-    conn.query(query, [temperature, humidity, light], (err, result) => {
+    conn.query(query, [temperature, humidity, light, smoke], (err, result) => {
       if (err) {
         throw err; 
       }
       console.log("Thêm vào database thành công với topic datasensor");
     });
-  } else {
-    
-    client.publish("controldevice" ,JSON.stringify(data) );
+  } else if (topic === "controldevice_server") {
+    client.publish("controldevice_client", JSON.stringify(data));
     const { device, status } = data;
     const query = `INSERT INTO action_history (device, status, time) VALUES (?, ?, NOW())`;
     conn.query(query, [device, status], (err, result) => {
       if (err) {
         throw err;
       }
-      console.log("Thêm vào database thành công với topic action_history");
+      console.log("Thêm vào database thành công với topic controldevice_server");
     });
   }
 });
