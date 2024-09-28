@@ -3,7 +3,7 @@
 const createError = require("http-errors");
 const conn = require("../db/connectMysql");
 const { formatter } = require("../utils/fomatter");
-const client = require('../mqtt');
+const client = require("../mqtt");
 
 const formatData = (data, formatter) => {
   return data.map((item) => ({
@@ -38,6 +38,22 @@ class Service {
       });
     });
   };
+  static DataCount = () => {
+    return new Promise((resolve, reject) => {
+      conn.query(
+        "SELECT COUNT(*) AS count FROM datasensor WHERE smoke < 80 AND Date(time) = '2024-09-28'" ,
+        (err, result) => {
+          if (err) {
+            reject(createError(409));
+          } else {
+            const count = result[0].count;
+           
+            resolve(count);
+          }
+        }
+      );
+    });
+  };
 
   static PublishData = ({ topic, message }) => {
     return new Promise((resolve, reject) => {
@@ -50,8 +66,6 @@ class Service {
       });
     });
   };
-
-
 }
 
 module.exports = Service;

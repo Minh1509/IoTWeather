@@ -4,7 +4,8 @@ import { FaSortUp, FaSortDown } from "react-icons/fa";
 
 const DataSensorTable = (props) => {
   const data = props.data;
-  console.log(data);
+  const dataCount = props.dataCount;
+  console.log(dataCount);
   const [searchTerm, setSearchTerm] = useState("");
   const [dataType, setDataType] = useState("all");
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
@@ -48,6 +49,7 @@ const DataSensorTable = (props) => {
           item.temperature.toString().includes(searchTerm) ||
           item.humidity.toString().includes(searchTerm) ||
           item.light.toString().includes(searchTerm) ||
+          item.smoke.toString().includes(searchTerm) ||
           item.time.toString().includes(searchTerm)
         );
       } else {
@@ -105,6 +107,7 @@ const DataSensorTable = (props) => {
             <option value="temperature">Temperature</option>
             <option value="humidity">Humidity</option>
             <option value="light">Light</option>
+            <option value="smoke">Smoke</option>
             <option value="time">Time</option>
           </select>
         </div>
@@ -117,6 +120,7 @@ const DataSensorTable = (props) => {
               <th onClick={() => handleSort("temperature")}>Temperature {getSortIcon("temperature")}</th>
               <th onClick={() => handleSort("humidity")}>Humidity {getSortIcon("humidity")}</th>
               <th onClick={() => handleSort("light")}>Light {getSortIcon("light")}</th>
+              <th onClick={() => handleSort("smoke")}>Smoke {getSortIcon("smoke")}</th>
               <th onClick={() => handleSort("time")}>Time {getSortIcon("time")}</th>
             </tr>
           </thead>
@@ -129,6 +133,9 @@ const DataSensorTable = (props) => {
                 <td style={{ color: "#fbc02d", fontWeight: "450" }}>
                   {item.light}
                 </td>
+                <td style={{ color: "#fbc02d", fontWeight: "450" }}>
+                  {item.smoke}
+                </td>
                 <td style={{ color: "#1976d2" }}>{item.time}</td>
               </tr>
             ))}
@@ -136,6 +143,9 @@ const DataSensorTable = (props) => {
         </table>
       </div>
       <div className="pagination">
+        <div className="select">
+          <p>Số lần độ bụi trong ngày vượt quá 80%: {dataCount} </p>
+        </div>
         <div className="rows-per-page">
           <label htmlFor="itemsPerPage">Rows per page: </label>
           <select

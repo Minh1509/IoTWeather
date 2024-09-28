@@ -76,11 +76,11 @@ main {
           h3 {
             font-size: 24px;
             font-weight: 600;
-            color: map.get($theme_colors, "dark");
+            color: #fff;
           }
 
           p {
-            color: map.get($theme_colors, "dark");
+            color:#fff;
             font-size: 18px;
           }
         }
@@ -209,3 +209,6 @@ main {
     background-color: transparent;
   }
 }
+
+
+

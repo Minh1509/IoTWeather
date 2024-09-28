@@ -16,7 +16,7 @@ const useDataHistory = () => {
       }
     };
     fetchData();
-    setInterval(fetchData, 10000);
+    setInterval(fetchData, 5000);
   }, []);
   return dataHistory
 };

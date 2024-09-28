@@ -26,6 +26,17 @@ class Controller {
             next(error);
         }
     };
+    DataCount = async (req, res, next) => {
+        try {
+          const data = await Service.DataCount();
+          res.send({
+            message: "Success",
+            data: data
+          });
+        } catch (error) {
+          next(error);
+        }
+      };
     PublishData = async (req, res, next) => {
         try {
             const {topic, message} = req.body

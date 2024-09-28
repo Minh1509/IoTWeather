@@ -11,7 +11,7 @@ conn.connect((err) => {
   if (err) {
     throw err;
   }
-  // conn.query("select * from action_history", (err, result) => {
+  // conn.query("ALTER TABLE datasensor ADD COLUMN smoke INT", (err, result) => {
   //   if(err){
   //     throw err;
   //   }

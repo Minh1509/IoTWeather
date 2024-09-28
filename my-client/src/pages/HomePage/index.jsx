@@ -7,9 +7,11 @@ import LineChart from "../../components/LineChart";
 import { AppContext } from "../../data/AppContext";
 import ControlDevice from "../../components/ControlDevices";
 import StatusSensor from "../../components/StatusSensor";
+import LineChartSmoke from "../../components/LineChartSmoke";
 
 const HomePage = (props) => {
   const { setCurrentPage } = useContext(AppContext);
+ 
 
   return (
     <>
@@ -36,12 +38,13 @@ const HomePage = (props) => {
           </li>
         </ul>
       </div>
-
+      
       <StatusSensor data = {props.dataSensor}/>
       <div className="main-bottom">
         <LineChart data={props.dataSensor} />
-        <ControlDevice data={props.dataHistory} />
+        <ControlDevice data={props.dataHistory} dataSmoke = {props.dataSensor[props.dataSensor.length-1].smoke} />
       </div>
+      {/* <LineChartSmoke data = {props.dataSensor}/> */}
     </>
   );
 };
