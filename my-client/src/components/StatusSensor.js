@@ -53,7 +53,7 @@ const StatusSensor = (props) => {
     <ul className="insights">
       <li style = {{backgroundColor: colorTem}}>
         <FaTemperatureHalf
-          style={{ color: "red" }}
+          style={{ color: "#d32f2f" }}
         />
         <span className="inf">
           <h3>Temperature</h3>
