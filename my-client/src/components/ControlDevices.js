@@ -6,6 +6,8 @@ const ControlDevice = (props) => {
   const [isFanOn, setFanIsOn] = useState(false);
   const [isLedOn, setLedIsOn] = useState(false);
   const [isLed1On, setLed1IsOn] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [prevDataSmoke, setPrevDataSmoke] = useState(props.dataSmoke);
   const dataSmoke = props.dataSmoke;
 
   const clientRef = useRef(null);
@@ -45,30 +47,61 @@ const ControlDevice = (props) => {
   }, []);
 
   useEffect(() => {
-    if (dataSmoke >= 80) {
+    if (dataSmoke >= 80 && prevDataSmoke < 80 && !isFanOn) {
       clientRef.current.publish(
         "controldevice",
         JSON.stringify({ device: "Fan", status: "On" })
       );
+      setAlertMessage("Fan is being turned On");
+      setTimeout(() => {
+        setAlertMessage("");
+      }, 1500);
+    } else if (dataSmoke <= 20 && isFanOn && prevDataSmoke > 20) {
+      clientRef.current.publish(
+        "controldevice",
+        JSON.stringify({ device: "Fan", status: "Off" })
+      );
+      setAlertMessage("Fan is being turned Off");
+      setTimeout(()=> {
+        setAlertMessage("");
+      }, 1500);
     }
-  }, [dataSmoke]);
+    setPrevDataSmoke(dataSmoke);
+  }, [dataSmoke, prevDataSmoke, isFanOn]);
 
   const handleDeviceControl = (device, status) => {
     clientRef.current.publish(
       "controldevice",
       JSON.stringify({ device, status })
     );
+    setAlertMessage(`${device} is being turned ${status}`);
+    setTimeout(() => {
+      setAlertMessage("");
+    }, 1500);
   };
 
   return (
     <div className="device">
       <h3>Control Device</h3>
+      <p
+        style={{
+          backgroundColor: "#aaa",
+          boxSizing: "border-box",
+          borderRadius: "5px",
+          textAlign: "center",
+          color: "#fff",
+          fontWeight: "600",
+          fontSize: "17px",
+        }}
+      >
+        {alertMessage}
+      </p>
 
       <ul className="device-item">
         <li>
           <FaFan className={isFanOn ? "fan-icon-spin" : ""} />
           <span className="inf">
-            <h4>Quạt</h4>
+            <h4>Fan</h4>
             <div className="active">
               <button
                 className={`btn-on ${isFanOn ? "activate" : ""}`}
@@ -88,7 +121,7 @@ const ControlDevice = (props) => {
         <li>
           <FaRegLightbulb className={isLedOn ? "blink" : ""} />
           <span className="inf">
-            <h4>Đèn LED 1</h4>
+            <h4>LED 1</h4>
             <div className="active">
               <button
                 className={`btn-on ${isLedOn ? "activate" : ""}`}
@@ -108,7 +141,7 @@ const ControlDevice = (props) => {
         <li>
           <FaRegLightbulb className={isLed1On ? "blink" : ""} />
           <span className="inf">
-            <h4>Đèn LED 2</h4>
+            <h4>LED 2</h4>
             <div className="active">
               <button
                 className={`btn-on ${isLed1On ? "activate" : ""}`}
