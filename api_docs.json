@@ -4,7 +4,7 @@
       "_postman_id": "c5cab6e0-4900-44e9-94c3-afddc02eaa43",
       "name": "IoT",
       "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-      "updatedAt": "2024-09-28T03:35:22.000Z",
+      "updatedAt": "2024-10-09T15:20:57.000Z",
       "createdAt": "2024-09-19T03:52:24.000Z",
       "lastUpdatedBy": "37921825",
       "uid": "37921825-c5cab6e0-4900-44e9-94c3-afddc02eaa43"
@@ -82,7 +82,7 @@
             }
           },
           "url": {
-            "raw": "http://localhost:8000/api/count",
+            "raw": "http://localhost:8000/api/countLedOn",
             "protocol": "http",
             "host": [
               "localhost"
@@ -90,7 +90,7 @@
             "port": "8000",
             "path": [
               "api",
-              "count"
+              "countLedOn"
             ]
           }
         },
@@ -108,7 +108,7 @@
           "header": [],
           "body": {
             "mode": "raw",
-            "raw": "{\r\n    \"topic\": \"datasensor\",\r\n    \"message\": {\r\n        \"temperature\": 37,\r\n        \"humidity\": 72,\r\n        \"light\": 123,\r\n        \"smoke\": 60\r\n    }\r\n}",
+            "raw": "{\r\n    \"topic\": \"datasensor\",\r\n    \"message\": {\r\n        \"temperature\": 37,\r\n        \"humidity\": 72,\r\n        \"light\": 123,\r\n        \"smoke\": 80\r\n    }\r\n}",
             "options": {
               "raw": {
                 "language": "json"
@@ -130,6 +130,68 @@
         },
         "response": [],
         "uid": "37921825-b592759f-18a3-4a05-9195-9f24cd8913b1"
+      },
+      {
+        "name": "SearchSensor",
+        "id": "c0e6ee84-28a4-4b7a-8bba-1d1eba489fbc",
+        "protocolProfileBehavior": {
+          "disableBodyPruning": true
+        },
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:8000/api/searchSensor?keySearch=500",
+            "protocol": "http",
+            "host": [
+              "localhost"
+            ],
+            "port": "8000",
+            "path": [
+              "api",
+              "searchSensor"
+            ],
+            "query": [
+              {
+                "key": "keySearch",
+                "value": "500"
+              }
+            ]
+          }
+        },
+        "response": [],
+        "uid": "37921825-c0e6ee84-28a4-4b7a-8bba-1d1eba489fbc"
+      },
+      {
+        "name": "SearchHistory",
+        "id": "bd08eb4d-e796-435d-b921-db9b0f0331a7",
+        "protocolProfileBehavior": {
+          "disableBodyPruning": true
+        },
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:8000/api/searchHistory?keySearch=2024/10/09",
+            "protocol": "http",
+            "host": [
+              "localhost"
+            ],
+            "port": "8000",
+            "path": [
+              "api",
+              "searchHistory"
+            ],
+            "query": [
+              {
+                "key": "keySearch",
+                "value": "2024/10/09"
+              }
+            ]
+          }
+        },
+        "response": [],
+        "uid": "37921825-bd08eb4d-e796-435d-b921-db9b0f0331a7"
       }
     ]
   }

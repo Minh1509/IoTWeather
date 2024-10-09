@@ -40,6 +40,7 @@ const LineChart = (props) => {
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         fill: false,
         yAxisID: 'y-left',
+        tension: 0.3, // Độ cong của đường
       },
       {
         label: "Humidity (%)",
@@ -48,6 +49,7 @@ const LineChart = (props) => {
         backgroundColor: "rgba(153, 102, 255, 0.2)",
         fill: false,
         yAxisID: 'y-left',
+        tension: 0.3, // Độ cong của đường
       },
       {
         label: "Light (lux)",
@@ -56,14 +58,16 @@ const LineChart = (props) => {
         backgroundColor: "rgba(255, 159, 64, 0.2)",
         fill: false,
         yAxisID: 'y-right',
+        tension: 0.3, // Độ cong của đường
       },
       {
-        label: "Smoke (%)",
+        label: "Gió (%)",
         data: smokeData,
         borderColor: "rgba(255, 99, 132, 1)", // Màu đỏ
         backgroundColor: "rgba(255, 99, 132, 0.2)", // Màu nền đỏ nhạt
         fill: false,
         yAxisID: 'y-left',
+        tension: 0.3, // Độ cong của đường
       }
     ],
   };
@@ -94,7 +98,7 @@ const LineChart = (props) => {
         position: 'left',
         title: {
           display: true,
-          text: 'Temperature (°C)   /   Humidity (%)   /   Smoke (%)',
+          text: 'Temperature (°C)   /   Humidity (%)  /  Gió(%)',
         },
       },
       'y-right': {

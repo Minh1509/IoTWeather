@@ -4,11 +4,11 @@
 #include <AsyncMqttClient.h>
 #include <ArduinoJson.h>
 
-#define WIFI_SSID "Loi"
-#define WIFI_PASSWORD "0976300109"
+#define WIFI_SSID "Minh"
+#define WIFI_PASSWORD "12345678"
 
 // Raspberri Pi Mosquitto MQTT Broker
-#define MQTT_HOST IPAddress(192, 168, 1, 29 )
+#define MQTT_HOST IPAddress(192, 168, 43, 107)
 #define MQTT_PORT 1893
 #define MQTT_PUB_SENSOR "datasensor"  // topic pub datasensor
 #define MQTT_USERNAME "minh"
@@ -17,6 +17,7 @@
 #define LIGHT_SENSOR_PIN A0
 #define LED1_PIN D1
 #define LED2_PIN D2
+#define LED3_PIN D7  // Thêm định nghĩa cho LED mới
 #define FAN_PIN D6
 #define DHTTYPE DHT11
 
@@ -60,7 +61,7 @@ void connectToMqtt() {
 
 void onMqttConnect(bool sessionPresent) {
   Serial.println("Connected to MQTT.");
-  mqttClient.subscribe("controldevice", 1); 
+  mqttClient.subscribe("controldevice", 1);
 }
 
 void onMqttDisconnect(AsyncMqttClientDisconnectReason reason) {
@@ -79,6 +80,7 @@ void onMessage(char* topic, char* payload, AsyncMqttClientMessageProperties prop
 
   String device = doc["device"];
   String status = doc["status"];
+  bool warning = doc["warning"];
   Serial.printf("Message arrived: [%s,%s]\n", device, status);
 
   // Điều khiển LED dựa trên thông tin JSON
@@ -86,14 +88,15 @@ void onMessage(char* topic, char* payload, AsyncMqttClientMessageProperties prop
     digitalWrite(LED1_PIN, (status == "On") ? HIGH : LOW);
   } else if (device == "LED2") {
     digitalWrite(LED2_PIN, (status == "On") ? HIGH : LOW);
-  }
-  else if(device == "Fan"){
-    digitalWrite(FAN_PIN, (status == "On") ? HIGH:LOW);
-  }
-  else if(device == "ALL") {
+  } else if (device == "LED3") {
+    digitalWrite(LED3_PIN, (status == "On") ? HIGH : LOW);  // Thêm logic điều khiển cho LED mới
+  } else if (device == "Fan") {
+    digitalWrite(FAN_PIN, (status == "On") ? HIGH : LOW);
+  } else if (device == "ALL") {
     digitalWrite(LED1_PIN, (status == "On") ? HIGH : LOW);
     digitalWrite(LED2_PIN, (status == "On") ? HIGH : LOW);
-    digitalWrite(FAN_PIN, (status == "On") ? HIGH:LOW);
+    digitalWrite(LED3_PIN, (status == "On") ? HIGH : LOW);  // Thêm logic điều khiển cho LED mới
+    digitalWrite(FAN_PIN, (status == "On") ? HIGH : LOW);
   }
   delay(1000);
   String jsonString;
@@ -101,9 +104,7 @@ void onMessage(char* topic, char* payload, AsyncMqttClientMessageProperties prop
   mqttClient.publish("controldevice_server", 1, true, jsonString.c_str());
   Serial.print("Published to controldevice_server: ");
   Serial.println(jsonString.c_str());
-
 }
-
 
 void setup() {
   Serial.begin(115200);
@@ -113,6 +114,7 @@ void setup() {
 
   pinMode(LED1_PIN, OUTPUT);
   pinMode(LED2_PIN, OUTPUT);
+  pinMode(LED3_PIN, OUTPUT);  // Thiết lập chân LED mới làm đầu ra
   pinMode(FAN_PIN, OUTPUT);
 
   wifiConnectHandler = WiFi.onStationModeGotIP(onWifiConnect);
@@ -120,7 +122,7 @@ void setup() {
 
   mqttClient.onConnect(onMqttConnect);
   mqttClient.onDisconnect(onMqttDisconnect);
-  mqttClient.onMessage(onMessage);  
+  mqttClient.onMessage(onMessage);
 
   mqttClient.setServer(MQTT_HOST, MQTT_PORT);
   mqttClient.setCredentials(MQTT_USERNAME, MQTT_PASSWORD);
@@ -135,7 +137,7 @@ void loop() {
 
     hum = dht.readHumidity();
     temp = dht.readTemperature();
-    light = 1024 - analogRead(LIGHT_SENSOR_PIN);
+    light = 950 - analogRead(LIGHT_SENSOR_PIN);
     smoke = random(1, 101);
 
     // Create JSON object
@@ -143,7 +145,7 @@ void loop() {
     doc["temperature"] = temp;
     doc["humidity"] = hum;
     doc["light"] = light;
-     doc["smoke"] = smoke; 
+    doc["smoke"] = smoke;
 
     // Serialize JSON to string
     String jsonString;
@@ -155,5 +157,5 @@ void loop() {
     Serial.println(MQTT_PUB_SENSOR);
     Serial.print("Message: ");
     Serial.println(jsonString.c_str());
-    }
+  }
 }

@@ -6,14 +6,44 @@ const ControlDevice = (props) => {
   const [isFanOn, setFanIsOn] = useState(false);
   const [isLedOn, setLedIsOn] = useState(false);
   const [isLed1On, setLed1IsOn] = useState(false);
+  const [isLed3On, setLed3IsOn] = useState(false); 
   const [alertMessage, setAlertMessage] = useState("");
-  const [prevDataSmoke, setPrevDataSmoke] = useState(props.dataSmoke);
-  const dataSmoke = props.dataSmoke;
+  const [showProgressBar, setShowProgressBar] = useState(false);
+  const [prevDataLight, setPrevDataLight] = useState(props.dataSmoke);
+
+  const dataCountOn = props.dataCountOn;
+  const dataLight = props.dataSmoke;
+  const data = props.data;
+
+  useEffect(() => {
+    const latestDevices = {};
+
+    for (let i = data.length - 1; i >= 0; i--) {
+      const device = data[i].device;
+      const status = data[i].status;
+      if (!latestDevices[device]) {
+        latestDevices[device] = { device, status };
+      }
+    }
+
+    const deviceStatusMap = {
+      Fan: setFanIsOn,
+      LED1: setLedIsOn,
+      LED2: setLed1IsOn,
+      LED3: setLed3IsOn, 
+    };
+
+    Object.keys(deviceStatusMap).forEach((device) => {
+      if (latestDevices[device]) {
+        deviceStatusMap[device](latestDevices[device].status === "On");
+      }
+    });
+  }, [data]);
 
   const clientRef = useRef(null);
 
   useEffect(() => {
-    const baseUri = "ws://localhost:9001"; // Sử dụng cổng WebSocket
+    const baseUri = "ws://localhost:9001"; 
     const option = {
       username: "minh",
       password: "b21dccn531",
@@ -22,7 +52,6 @@ const ControlDevice = (props) => {
     clientRef.current = mqtt.connect(baseUri, option);
 
     clientRef.current.on("connect", () => {
-      console.log("Connected to MQTT server");
       clientRef.current.subscribe("controldevice_client", { qos: 1 });
     });
 
@@ -37,6 +66,8 @@ const ControlDevice = (props) => {
           setLedIsOn(status === "On");
         } else if (device === "LED2") {
           setLed1IsOn(status === "On");
+        } else if (device === "LED3") {
+          setLed3IsOn(status === "On");
         }
       }
     });
@@ -47,36 +78,34 @@ const ControlDevice = (props) => {
   }, []);
 
   useEffect(() => {
-    if (dataSmoke >= 80 && prevDataSmoke < 80 && !isFanOn) {
-      clientRef.current.publish(
-        "controldevice",
-        JSON.stringify({ device: "Fan", status: "On" })
+    if (dataLight > 80 && !isLed3On && prevDataLight <= 80) {
+      clientRef.current.publish("controldevice",JSON.stringify({ device: "LED3", status: "On", warning: true })
       );
-      setAlertMessage("Fan is being turned On");
+      setAlertMessage("LED3 is being turned On");
+      setShowProgressBar(true);
       setTimeout(() => {
         setAlertMessage("");
+        setShowProgressBar(false);
       }, 1500);
-    } else if (dataSmoke <= 20 && isFanOn && prevDataSmoke > 20) {
-      clientRef.current.publish(
-        "controldevice",
-        JSON.stringify({ device: "Fan", status: "Off" })
-      );
-      setAlertMessage("Fan is being turned Off");
-      setTimeout(()=> {
+    } else if (dataLight < 80 && isLed3On && prevDataLight >= 80) {
+      clientRef.current.publish("controldevice",JSON.stringify({ device: "LED3", status: "Off" }));
+      setAlertMessage("LED3 is being turned Off");
+      setShowProgressBar(true);
+      setTimeout(() => {
         setAlertMessage("");
+        setShowProgressBar(false);
       }, 1500);
     }
-    setPrevDataSmoke(dataSmoke);
-  }, [dataSmoke, prevDataSmoke, isFanOn]);
+    setPrevDataLight(dataLight);
+  }, [dataLight, prevDataLight, isLed3On]);
 
   const handleDeviceControl = (device, status) => {
-    clientRef.current.publish(
-      "controldevice",
-      JSON.stringify({ device, status })
-    );
+    clientRef.current.publish("controldevice",JSON.stringify({ device, status }));
     setAlertMessage(`${device} is being turned ${status}`);
+    setShowProgressBar(true);
     setTimeout(() => {
       setAlertMessage("");
+      setShowProgressBar(false);
     }, 1500);
   };
 
@@ -85,16 +114,17 @@ const ControlDevice = (props) => {
       <h3>Control Device</h3>
       <p
         style={{
-          backgroundColor: "#aaa",
+          backgroundColor: "#f6f6f9",
           boxSizing: "border-box",
           borderRadius: "5px",
           textAlign: "center",
-          color: "#fff",
+          color: "#388e3c",
           fontWeight: "600",
-          fontSize: "17px",
+          fontSize: "20px",
         }}
       >
         {alertMessage}
+        {showProgressBar && <div className="progress-bar"></div>}
       </p>
 
       <ul className="device-item">
@@ -121,7 +151,7 @@ const ControlDevice = (props) => {
         <li>
           <FaRegLightbulb className={isLedOn ? "blink" : ""} />
           <span className="inf">
-            <h4>LED 1</h4>
+            <h4>Đèn LED 1</h4>
             <div className="active">
               <button
                 className={`btn-on ${isLedOn ? "activate" : ""}`}
@@ -141,7 +171,7 @@ const ControlDevice = (props) => {
         <li>
           <FaRegLightbulb className={isLed1On ? "blink" : ""} />
           <span className="inf">
-            <h4>LED 2</h4>
+            <h4>Đèn LED 2</h4>
             <div className="active">
               <button
                 className={`btn-on ${isLed1On ? "activate" : ""}`}
@@ -158,6 +188,27 @@ const ControlDevice = (props) => {
             </div>
           </span>
         </li>
+        <li>
+          <FaRegLightbulb className={isLed3On ? "blink" : ""} />
+          <span className="inf">
+            <h4>Cảnh báo</h4>
+            <div className="active">
+              <button
+                className={`btn-on ${isLed3On ? "activate" : ""}`}
+                onClick={() => handleDeviceControl("LED3", "On")}
+              >
+                On
+              </button>
+              <button
+                className={`btn-off ${!isLed3On ? "notactivate" : ""}`}
+                onClick={() => handleDeviceControl("LED3", "Off")}
+              >
+                Off
+              </button>
+            </div>
+          </span>
+        </li>
+        <p style={{fontWeight:'600', fontSize: '18px'}}>Số lần bật đèn led cảnh báo: {dataCountOn}</p>
       </ul>
     </div>
   );
