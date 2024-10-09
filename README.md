@@ -1,4 +1,4 @@
-# Web IoTWeather Project
+# Web IoTWeather
 
 ## Giới thiệu
 Dự án này là một hệ thống IoT cho phép giám sát nhiệt độ, độ ẩm, ánh sáng,... và điều khiển các thiết bị như quạt, bóng đèn, điều hòa,.. thông qua giao thức MQTT.
