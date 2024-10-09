@@ -17,7 +17,7 @@ const useDataSensor = () => {
       }
     };
     fetchData();
-    setInterval(fetchData, 5000);
+    setInterval(fetchData, 3000);
   }, []);
   return dataSensor;
 };

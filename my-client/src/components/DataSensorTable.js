@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { CiSearch } from "react-icons/ci";
-import { FaSortUp, FaSortDown } from "react-icons/fa"; 
+import { FaSortUp, FaSortDown } from "react-icons/fa";
+import axios from "axios"; 
+import { useNavigate } from "react-router-dom"; 
 
 const DataSensorTable = (props) => {
-  const data = props.data;
+  const [data, setData] = useState([]);
   const dataCount = props.dataCount;
   console.log(dataCount);
   const [searchTerm, setSearchTerm] = useState("");
@@ -11,10 +13,29 @@ const DataSensorTable = (props) => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   // Lấy dữ liệu ban đầu từ props
+  //   setData(props.data);
+  // }, [props.data]);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
+  };
+
+  const handleSearchSubmit = async (event) => {
+    event.preventDefault();
     setCurrentPage(1);
+    navigate(`?keySearch=${searchTerm}`);
+
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/searchSensor`,{params: { keySearch: searchTerm },});
+      setData(response.data.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleDataTypeChange = (event) => {
@@ -66,16 +87,17 @@ const DataSensorTable = (props) => {
       }
       return 0;
     });
-    const getSortIcon = (key) => {
-      if (sortConfig.key === key) {
-        if (sortConfig.direction === "asc") {
-          return <FaSortUp className="sort-icon" />;
-        } else {
-          return <FaSortDown className="sort-icon" />;
-        }
+
+  const getSortIcon = (key) => {
+    if (sortConfig.key === key) {
+      if (sortConfig.direction === "asc") {
+        return <FaSortUp className="sort-icon" />;
+      } else {
+        return <FaSortDown className="sort-icon" />;
       }
-      return null;
-    };
+    }
+    return null;
+  };
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const currentData = filteredData.slice(
@@ -86,7 +108,7 @@ const DataSensorTable = (props) => {
   return (
     <>
       <div className="main-header-bottom">
-        <form action="#">
+        <form onSubmit={handleSearchSubmit}>
           <div className="form-input">
             <input
               type="text"
@@ -107,7 +129,7 @@ const DataSensorTable = (props) => {
             <option value="temperature">Temperature</option>
             <option value="humidity">Humidity</option>
             <option value="light">Light</option>
-            <option value="smoke">Smoke</option>
+            <option value="smoke">Gió</option>
             <option value="time">Time</option>
           </select>
         </div>
@@ -116,12 +138,20 @@ const DataSensorTable = (props) => {
         <table>
           <thead>
             <tr>
-              <th onClick={() => handleSort("id")} >ID {getSortIcon("id")}</th>
-              <th onClick={() => handleSort("temperature")}>Temperature {getSortIcon("temperature")}</th>
-              <th onClick={() => handleSort("humidity")}>Humidity {getSortIcon("humidity")}</th>
-              <th onClick={() => handleSort("light")}>Light {getSortIcon("light")}</th>
-              <th onClick={() => handleSort("smoke")}>Smoke {getSortIcon("smoke")}</th>
-              <th onClick={() => handleSort("time")}>Time {getSortIcon("time")}</th>
+              <th onClick={() => handleSort("id")}>ID {getSortIcon("id")}</th>
+              <th onClick={() => handleSort("temperature")}>
+                Temperature {getSortIcon("temperature")}
+              </th>
+              <th onClick={() => handleSort("humidity")}>
+                Humidity {getSortIcon("humidity")}
+              </th>
+              <th onClick={() => handleSort("light")}>
+                Light {getSortIcon("light")}
+              </th>
+              <th onClick={() => handleSort("smoke")}>Gió {getSortIcon("smoke")}</th>
+              <th onClick={() => handleSort("time")}>
+                Time {getSortIcon("time")}
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -133,7 +163,7 @@ const DataSensorTable = (props) => {
                 <td style={{ color: "#fbc02d", fontWeight: "450" }}>
                   {item.light}
                 </td>
-                <td style={{ color: "#fbc02d", fontWeight: "450" }}>
+                <td style={{ color: "#aaaaaa", fontWeight: "450" }}>
                   {item.smoke}
                 </td>
                 <td style={{ color: "#1976d2" }}>{item.time}</td>
@@ -143,9 +173,6 @@ const DataSensorTable = (props) => {
         </table>
       </div>
       <div className="pagination">
-        <div className="select">
-          <p>Số lần độ bụi trong ngày vượt quá 80%: {dataCount} </p>
-        </div>
         <div className="rows-per-page">
           <label htmlFor="itemsPerPage">Rows per page: </label>
           <select

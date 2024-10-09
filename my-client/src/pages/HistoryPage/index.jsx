@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext} from "react";
 import { AppContext } from "../../data/AppContext";
 import { Link } from "react-router-dom";
 import { ROUTER } from "../../routes/router";
@@ -9,6 +9,7 @@ import Table from "../../components/HistoryTable";
 const HistoryPage = (props) => {
   const dataHistory = props.dataHistory;
   const { setCurrentPage } = useContext(AppContext);
+ 
 
   return (
     <>
@@ -36,7 +37,7 @@ const HistoryPage = (props) => {
             </li>
           </ul>
         </div>
-        <Table data = {dataHistory}/>
+        <Table data = {dataHistory} />
       </div>
     </>
   );

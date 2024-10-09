@@ -1,10 +1,10 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-require('dotenv').config
-require('./db/connectMysql');
+require('dotenv').config()
+require('./src/db/connectMysql.js');
 require('./mqtt');
-const data = require("./routes/index.js");
+const data = require("./src/routes/index.js");
 
 
 app.use(cors({
@@ -15,8 +15,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api', data);
 
+app.use((err, req, res, next) => {
+    const statusCode = err.status || 500;
+    return res.status(statusCode).json({
+        status: 'error',
+        code: statusCode,
+        message: err.message || "Internal server error"
+    })
+})
 
-const port =   8000;
+
+const port = process.env.PORT || 8080;
 app.listen(port , () => {
     console.log(`Server is running on port ${(port)}`);
 })

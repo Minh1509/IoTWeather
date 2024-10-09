@@ -70,6 +70,7 @@ main {
           align-items: center;
           justify-content: center;
           text-align: center;
+         
         }
 
         .inf {
@@ -211,4 +212,29 @@ main {
 }
 
 
+.progress-bar {
+  width: 50%;
+  height: 5px;
+  background: linear-gradient(90deg, #388e3c, #fbc02d, #d32f2f);
+  background-size: 300%;
+  animation: progress 1.5s linear forwards, colorChange 1.5s linear forwards;
+  margin-top: 5px;
+}
 
+@keyframes progress {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes colorChange {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 0%;
+  }
+}

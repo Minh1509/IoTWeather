@@ -1,24 +1,40 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import { CiSearch } from "react-icons/ci";
-import { FaSortUp, FaSortDown } from "react-icons/fa"; // Thêm các biểu tượng mũi tên
+import { FaSortUp, FaSortDown } from "react-icons/fa"; 
+import { useNavigate } from "react-router-dom"; 
+import axios from 'axios'
 
 const HistoryTable = (props) => {
-  const data = props.data;
+  const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [dataType, setDataType] = useState("all");
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate(); 
+
+  // useEffect(() => {
+  //   // Lấy dữ liệu ban đầu từ props
+  //   setData(props.data);
+  // }, [props.data]);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
     setCurrentPage(1);
   };
 
-  const handleDataTypeChange = (event) => {
-    setDataType(event.target.value);
+  const handleSearchSubmit = async (event) => {
+    event.preventDefault();
     setCurrentPage(1);
-  };
+    navigate(`?keySearch=${searchTerm}`);
+    try {
+        const response = await axios.get(
+            `http://localhost:8000/api/searchHistory`,{params: { keySearch: searchTerm },}
+        );
+        setData(response.data.data);
+    } catch (error) {
+        console.error(error);
+    }
+};
 
   const handleSort = (key) => {
     let direction = "asc";
@@ -38,21 +54,10 @@ const HistoryTable = (props) => {
       setCurrentPage(pageNumber);
     }
   };
+  
 
   const filteredData = data
-    .filter((item) => {
-      if (dataType === "all") {
-        return (
-          item.id.toString().includes(searchTerm) ||
-          item.device.toString().toLowerCase().includes(searchTerm) ||
-          item.status.toString().toLowerCase().includes(searchTerm) ||
-          item.time.toString().includes(searchTerm)
-        );
-      } else if (dataType === "time") {
-        return item.time?.toString().includes(searchTerm);
-      }
-      return false;
-    })
+    .filter((item) => item.time?.toString().includes(searchTerm))
     .sort((a, b) => {
       if (sortConfig.key) {
         if (sortConfig.direction === "asc") {
@@ -84,7 +89,7 @@ const HistoryTable = (props) => {
   return (
     <>
       <div className="main-header-bottom">
-        <form action="#">
+        <form onSubmit={handleSearchSubmit}>
           <div className="form-input">
             <input
               type="text"
@@ -100,11 +105,11 @@ const HistoryTable = (props) => {
 
         <div className="datatype">
           <select
-            value={dataType}
-            onChange={handleDataTypeChange}
+            value="time"
+            onChange={() => {}}
             style={{ width: "110px" }}
+            disabled
           >
-            <option value="all">All</option>
             <option value="time">Time</option>
           </select>
         </div>
